@@ -4,8 +4,11 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
+import {
+  Center, ScaleFade, Spinner,
+} from '@chakra-ui/react';
 import AuthView from './views/Auth.tsx';
-import {client} from './utils/client.ts';
+import {useSupabase} from './hooks/useSupabase.ts';
 import IndexView from './views/Index.tsx';
 
 const router = createBrowserRouter([
@@ -18,7 +21,8 @@ const router = createBrowserRouter([
 });
 
 function App() {
-  const [session, setSession] = useState<Session | null>(null);
+  const client = useSupabase();
+  const [session, setSession] = useState<Session | null | false>(false);
 
   useEffect(() => {
     client.auth.getSession().then(({data: {session: s}}) => {
@@ -32,9 +36,19 @@ function App() {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [client]);
 
-  if (!session) {
+  if (session === false) {
+    return (
+      <Center h="100vh">
+        <ScaleFade in delay={0.5}>
+          <Spinner size="xl" color="white" />
+        </ScaleFade>
+      </Center>
+    );
+  }
+
+  if (session === null) {
     return (
       <AuthView />
     );
