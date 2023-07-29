@@ -1,15 +1,14 @@
-import {useState, useEffect} from 'react';
-import {Session} from '@supabase/supabase-js';
-import {
-  createBrowserRouter,
-  RouterProvider,
-  ScrollRestoration,
-} from 'react-router-dom';
 import {
   Center, ScaleFade, Spinner,
 } from '@chakra-ui/react';
-import AuthView from './views/Auth.tsx';
+import {Session} from '@supabase/supabase-js';
+import {useEffect, useState} from 'react';
+import {
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 import {useSupabase} from './hooks/useSupabase.ts';
+import AuthView from './views/Auth.tsx';
 import IndexView from './views/Index.tsx';
 import LeaderboardView from './views/Leaderboard.tsx';
 

@@ -1,8 +1,9 @@
+import {
+  Box, Center,
+  Container, Image,
+} from '@chakra-ui/react';
 import {Auth} from '@supabase/auth-ui-react';
 import {ThemeSupa} from '@supabase/auth-ui-shared';
-import {
-  Container, Image, Box, Center,
-} from '@chakra-ui/react';
 import logo from '../assets/logo.svg';
 import {useSupabase} from '../hooks/useSupabase.ts';
 

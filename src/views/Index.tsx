@@ -1,11 +1,13 @@
 import {
-  Box, Container, Divider, Icon, SimpleGrid, Stack, Text, Link,
+  Box, Container, Divider, Icon,
+  Link,
+  SimpleGrid, Stack, Text,
 } from '@chakra-ui/react';
 import {RiArrowRightLine} from 'react-icons/ri';
-import {Link as RouterLink, ScrollRestoration} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
+import AchievementList from '../components/AchievementList.tsx';
 import Hero from '../components/Hero.tsx';
 import PointsDisplay from '../components/PointsDisplay.tsx';
-import AchievementList from '../components/AchievementList.tsx';
 
 export default function IndexView() {
   return (

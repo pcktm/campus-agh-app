@@ -1,10 +1,11 @@
-import {useMemo} from 'react';
 import {
-  Box, Heading, Icon, List, ListItem, Skeleton, Stack, Text,
+  Box,
+  Icon, List, ListItem, Skeleton, Stack, Text,
 } from '@chakra-ui/react';
-import {RiAccountCircleLine, RiAwardFill, RiGroup2Line} from 'react-icons/ri';
 import {formatDistanceToNow} from 'date-fns';
 import {pl} from 'date-fns/locale';
+import {useMemo} from 'react';
+import {RiAccountCircleLine, RiAwardFill, RiGroup2Line} from 'react-icons/ri';
 import {usePersonalAchievements, useTeamAchievements} from '../hooks/index.ts';
 
 export default function AchievementList() {

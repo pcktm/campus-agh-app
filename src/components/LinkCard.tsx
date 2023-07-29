@@ -1,8 +1,8 @@
 import {
-  Box, Card, CardBody, CardHeader, Heading, LinkOverlay,
+  Card, CardBody, CardHeader, Heading, LinkOverlay,
 } from '@chakra-ui/react';
-import {Link as RouterLink} from 'react-router-dom';
 import React from 'react';
+import {Link as RouterLink} from 'react-router-dom';
 
 export type LinkCardProps = {
   title: string;

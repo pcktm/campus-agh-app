@@ -1,5 +1,14 @@
 import {
-  Tabs, TabList, TabPanels, Tab, TabPanel, Box, Container, Heading, Table, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, Spinner,
+  Box, Container, Heading,
+  Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Table, TableContainer,
+  Tabs,
+  Tbody, Td,
+  Th, Thead, Tr,
 } from '@chakra-ui/react';
 import {useMemo} from 'react';
 import {ScrollRestoration} from 'react-router-dom';
@@ -48,8 +57,8 @@ function LeaderboardTable({data}: {data: TScore[]}) {
 }
 
 export default function LeaderboardView() {
-  const {data: usersWithAchivements, isLoading: personalLoading} = useProfilesWithAchievements();
-  const {data: teamWithAchievements, isLoading: teamLoading} = useTeamsWithAchievements();
+  const {data: usersWithAchivements} = useProfilesWithAchievements();
+  const {data: teamWithAchievements} = useTeamsWithAchievements();
 
   const personalLeaderboard: TScore[] = useMemo(() => {
     const scores: TScore[] = [];

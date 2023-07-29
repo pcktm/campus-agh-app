@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
 import {
-  ChakraProvider, ColorModeScript, extendTheme, ThemeConfig,
+  ChakraProvider, ColorModeScript, extendTheme,
 } from '@chakra-ui/react';
+import '@fontsource/lato';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import '@fontsource/lato';
 
 const themeConfig = {
   initialColorMode: 'dark',
