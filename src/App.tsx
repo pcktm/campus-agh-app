@@ -3,6 +3,7 @@ import {Session} from '@supabase/supabase-js';
 import {
   createBrowserRouter,
   RouterProvider,
+  ScrollRestoration,
 } from 'react-router-dom';
 import {
   Center, ScaleFade, Spinner,
@@ -10,11 +11,16 @@ import {
 import AuthView from './views/Auth.tsx';
 import {useSupabase} from './hooks/useSupabase.ts';
 import IndexView from './views/Index.tsx';
+import LeaderboardView from './views/Leaderboard.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <IndexView />,
+  },
+  {
+    path: '/leaderboard',
+    element: <LeaderboardView />,
   },
 ], {
   basename: import.meta.env.BASE_URL,
