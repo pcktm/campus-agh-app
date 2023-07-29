@@ -1,6 +1,6 @@
 import {
   Box, Center,
-  Container, Image,
+  Container, Heading, Image,
 } from '@chakra-ui/react';
 import {Auth} from '@supabase/auth-ui-react';
 import {ThemeSupa} from '@supabase/auth-ui-shared';
@@ -28,6 +28,9 @@ export default function AuthView() {
             height="auto"
             margin="0 auto"
           />
+          <Heading as="h1" size="md" textAlign="center">
+            Witaj na Campusie!
+          </Heading>
           <Auth
             supabaseClient={client}
             appearance={{
@@ -37,13 +40,7 @@ export default function AuthView() {
                   colors: {
                     brand: '#e61b5a',
                     brandAccent: '#eb497b',
-                    anchorTextColor: '#f4fafb',
-                    brandButtonText: '#f4fafb',
-                    inputLabelText: '#f4fafb',
-                    inputBorder: '#8e9495',
-                    inputBorderFocus: '#f4fafb',
-                    inputBorderHover: '#8e9495',
-                    inputText: '#f4fafb',
+
                   },
                   fonts: {
                     bodyFontFamily: 'Lato',

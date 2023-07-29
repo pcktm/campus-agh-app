@@ -8,6 +8,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import AchievementList from '../components/AchievementList.tsx';
 import Hero from '../components/Hero.tsx';
 import PointsDisplay from '../components/PointsDisplay.tsx';
+import MotdDisplay from '../components/MotdDisplay.tsx';
 
 export default function IndexView() {
   return (
@@ -18,6 +19,7 @@ export default function IndexView() {
       <Container mt={6}>
         <PointsDisplay />
         <Box mt={4} />
+        <MotdDisplay />
         <AchievementList />
         <Stack direction="row" spacing={2} mt={3} alignContent="center" justifyContent="flex-end">
           <Link as={RouterLink} to="/leaderboard" display="flex" alignItems="center" gap={1}>

@@ -103,3 +103,28 @@ export function useTeamsWithAchievements() {
     return data;
   });
 }
+
+export function useSettings() {
+  const client = useSupabase();
+  const key = ['motd'];
+
+  return useQuery(
+    key,
+    async () => {
+      const {data} = await client
+        .from('settings')
+        .select('name, value')
+        .throwOnError();
+
+      return data;
+    },
+    {
+      refetchOnWindowFocus: import.meta.env.PROD,
+    },
+  );
+}
+
+export function useMotd() {
+  const {data} = useSettings();
+  return data?.find((setting) => setting.name === 'motd')?.value as string | undefined;
+}
