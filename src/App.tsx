@@ -7,10 +7,13 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
+import {useQueryClient} from '@tanstack/react-query';
 import {useSupabase} from './hooks/useSupabase.ts';
 import AuthView from './views/Auth.tsx';
 import IndexView from './views/Index.tsx';
 import LeaderboardView from './views/Leaderboard.tsx';
+import {useIsAdmin} from './hooks/queries.ts';
+import {AdminView} from './views/Admin.tsx';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +31,8 @@ const router = createBrowserRouter([
 function App() {
   const client = useSupabase();
   const [session, setSession] = useState<Session | null | false>(false);
+  const isAdmin = useIsAdmin();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     client.auth.getSession().then(({data: {session: s}}) => {
@@ -37,11 +42,12 @@ function App() {
     const {
       data: {subscription},
     } = client.auth.onAuthStateChange((_event, s) => {
+      queryClient.invalidateQueries();
       setSession(s);
     });
 
     return () => subscription.unsubscribe();
-  }, [client]);
+  }, [client, queryClient]);
 
   if (session === false) {
     return (
@@ -57,6 +63,10 @@ function App() {
     return (
       <AuthView />
     );
+  }
+
+  if (session && isAdmin) {
+    return <AdminView />;
   }
 
   return (

@@ -2,7 +2,7 @@ import {
   Box, Image, Center, Heading, Skeleton,
 } from '@chakra-ui/react';
 import logo from '../assets/logo.svg';
-import {useUser, useProfileQuery} from '../hooks/index.ts';
+import {useUser, useProfileQuery} from '../hooks/queries.ts';
 
 export default function Hero() {
   const {data: user} = useUser();
@@ -15,7 +15,7 @@ export default function Hero() {
           <Heading as="h1" size="md">
             Witaj na Campusie,
             {' '}
-            {profile?.firstName ?? 'Uczestniku'}
+            {profile?.firstName || 'Uczestniku'}
             !
           </Heading>
         </Skeleton>

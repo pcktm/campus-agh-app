@@ -9,23 +9,29 @@ export type LinkCardProps = {
   description: string;
   link: string;
   icon: React.ReactNode;
+  borderColor?: string;
 }
 
 export default function LinkCard(props: LinkCardProps) {
   const {
-    title, description, link, icon,
+    title, description, link, icon, borderColor,
   } = props;
   return (
-    <LinkOverlay as={RouterLink} to={link}>
-      <Card>
-        <CardHeader>
+
+    <Card borderColor={borderColor} borderWidth={borderColor ? 1 : 0}>
+      <LinkOverlay as={RouterLink} to={link}>
+        <CardHeader pb={0} mb={0}>
           {icon}
         </CardHeader>
         <CardBody>
           <Heading as="h3" size="md" mb={2}>{title}</Heading>
           {description}
         </CardBody>
-      </Card>
-    </LinkOverlay>
+      </LinkOverlay>
+    </Card>
   );
 }
+
+LinkCard.defaultProps = {
+  borderColor: null,
+};

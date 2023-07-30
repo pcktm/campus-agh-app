@@ -14,7 +14,7 @@ import {useMemo} from 'react';
 import {ScrollRestoration} from 'react-router-dom';
 import {
   useProfilesWithAchievements, useTeamsWithAchievements,
-} from '../hooks/index.ts';
+} from '../hooks/queries.ts';
 
 type TScore = {
   id: number;

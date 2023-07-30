@@ -1,5 +1,5 @@
 import {Alert, AlertIcon} from '@chakra-ui/react';
-import {useMotd} from '../hooks/index.ts';
+import {useMotd} from '../hooks/queries.ts';
 
 export default function MotdDisplay() {
   const motd = useMotd();

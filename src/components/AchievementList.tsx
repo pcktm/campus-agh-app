@@ -6,7 +6,7 @@ import {formatDistanceToNow} from 'date-fns';
 import {pl} from 'date-fns/locale';
 import {useMemo} from 'react';
 import {RiAccountCircleLine, RiAwardFill, RiGroup2Line} from 'react-icons/ri';
-import {usePersonalAchievements, useTeamAchievements} from '../hooks/index.ts';
+import {usePersonalAchievements, useTeamAchievements} from '../hooks/queries.ts';
 
 export default function AchievementList() {
   const {data: personalAchievements, isLoading: personalLoading} = usePersonalAchievements();

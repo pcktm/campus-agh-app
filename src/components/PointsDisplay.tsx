@@ -4,7 +4,7 @@ import {
 import {useMemo} from 'react';
 import {
   usePersonalAchievements, useProfileQuery, useTeamAchievements, useUser,
-} from '../hooks/index.ts';
+} from '../hooks/queries.ts';
 
 export default function PointsDisplay() {
   const {data: user} = useUser();

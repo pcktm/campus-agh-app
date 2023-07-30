@@ -76,8 +76,11 @@ export function useProfilesWithAchievements() {
     const {data} = await client
       .from('profiles')
       .select(`
-        id, userId, teamId, createdAt, firstName, lastName, user_achievements (
+        id, userId, createdAt, firstName, lastName, user_achievements (
           id, title, description, score, createdAt
+        ),
+        teams (
+          id, name
         )
       `)
       .throwOnError();
@@ -127,4 +130,9 @@ export function useSettings() {
 export function useMotd() {
   const {data} = useSettings();
   return data?.find((setting) => setting.name === 'motd')?.value as string | undefined;
+}
+
+export function useIsAdmin() {
+  const {data} = useUser();
+  return data?.email?.endsWith('@samorzad.agh.edu.pl') ?? false;
 }
