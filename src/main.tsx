@@ -42,7 +42,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider
       theme={theme}
-      toastOptions={{defaultOptions: {position: 'top'}}}
+      toastOptions={{defaultOptions: {position: 'bottom'}}}
     >
       <QueryClientProvider client={queryClient}>
         <App />
