@@ -1,8 +1,8 @@
 import {
-  Center, ScaleFade, Spinner,
+  Center, Heading, ScaleFade, Spinner, Stack,
 } from '@chakra-ui/react';
 import {Session} from '@supabase/supabase-js';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState, Suspense} from 'react';
 import {
   RouterProvider,
   createBrowserRouter,
@@ -13,7 +13,8 @@ import AuthView from './views/Auth.tsx';
 import IndexView from './views/Index.tsx';
 import LeaderboardView from './views/Leaderboard.tsx';
 import {useIsAdmin} from './hooks/queries.ts';
-import {AdminView} from './views/Admin.tsx';
+
+const AdminView = React.lazy(() => import('./views/Admin.tsx'));
 
 const router = createBrowserRouter([
   {
@@ -66,7 +67,20 @@ function App() {
   }
 
   if (session && isAdmin) {
-    return <AdminView />;
+    return (
+      <Suspense
+        fallback={(
+          <Center h="100vh">
+            <Stack spacing={4} align="center">
+              <Spinner size="xl" color="brandRed.500" />
+              <Heading as="h1" size="xs">Ładowanie panelu...</Heading>
+            </Stack>
+          </Center>
+        )}
+      >
+        <AdminView />
+      </Suspense>
+    );
   }
 
   return (

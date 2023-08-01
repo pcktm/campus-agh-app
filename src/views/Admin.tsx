@@ -5,7 +5,7 @@ import AddAchievementModal from '../components/admin/AddAchievement.tsx';
 import UpdateMotdModal from '../components/admin/UpdateMotd.tsx';
 import {useSupabase} from '../hooks/useSupabase.ts';
 
-export function AdminView() {
+export default function AdminView() {
   const supabase = useSupabase();
   const handleLogout = () => {
     supabase.auth.signOut();
