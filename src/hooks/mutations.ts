@@ -47,3 +47,33 @@ export function useAddAchievement() {
     },
   });
 }
+
+export function useUpdateMotd() {
+  const supabase = useSupabase();
+  const toast = useToast();
+  return useMutation({
+    mutationFn: async (newMotd: string | null) => {
+      await supabase.from('settings')
+        .update({
+          value: newMotd ?? '',
+        })
+        .eq('name', 'motd')
+        .single()
+        .throwOnError();
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Motd zaktualizowany',
+        status: 'success',
+      });
+    },
+    onError: (error: {message?: string}) => {
+      console.error(error);
+      toast({
+        title: 'Błąd podczas aktualizacji',
+        status: 'error',
+        description: error?.message ?? 'Check console',
+      });
+    },
+  });
+}

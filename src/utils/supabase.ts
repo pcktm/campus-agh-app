@@ -14,6 +14,7 @@ export interface Database {
           createdAt: string | null
           firstName: string
           id: number
+          isHidden: boolean
           lastName: string
           teamId: number | null
           userId: string | null
@@ -22,6 +23,7 @@ export interface Database {
           createdAt?: string | null
           firstName?: string
           id?: number
+          isHidden?: boolean
           lastName?: string
           teamId?: number | null
           userId?: string | null
@@ -30,6 +32,7 @@ export interface Database {
           createdAt?: string | null
           firstName?: string
           id?: number
+          isHidden?: boolean
           lastName?: string
           teamId?: number | null
           userId?: string | null
@@ -48,6 +51,24 @@ export interface Database {
             referencedColumns: ['id']
           }
         ]
+      }
+      settings: {
+        Row: {
+          id: number
+          name: string
+          value: string
+        }
+        Insert: {
+          id?: number
+          name: string
+          value: string
+        }
+        Update: {
+          id?: number
+          name?: string
+          value?: string
+        }
+        Relationships: []
       }
       team_achievements: {
         Row: {

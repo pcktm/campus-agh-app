@@ -86,6 +86,8 @@ export function useProfilesWithAchievements() {
       .throwOnError();
 
     return data;
+  }, {
+    refetchOnWindowFocus: import.meta.env.PROD,
   });
 }
 
@@ -104,12 +106,14 @@ export function useTeamsWithAchievements() {
       .throwOnError();
 
     return data;
+  }, {
+    refetchOnWindowFocus: import.meta.env.PROD,
   });
 }
 
 export function useSettings() {
   const client = useSupabase();
-  const key = ['motd'];
+  const key = ['settings'];
 
   return useQuery(
     key,
@@ -127,9 +131,9 @@ export function useSettings() {
   );
 }
 
-export function useMotd() {
+export function useMotd(): string | undefined {
   const {data} = useSettings();
-  return data?.find((setting) => setting.name === 'motd')?.value as string | undefined;
+  return data?.find((setting) => setting.name === 'motd')?.value;
 }
 
 export function useIsAdmin() {
