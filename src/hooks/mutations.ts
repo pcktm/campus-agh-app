@@ -1,4 +1,4 @@
-import {useMutation} from '@tanstack/react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useToast} from '@chakra-ui/react';
 import {useSupabase} from './useSupabase.ts';
 import type {EventType} from '../types.d.ts';
@@ -97,6 +97,44 @@ export function useUpdateMotd() {
       console.error(error);
       toast({
         title: 'Błąd podczas aktualizacji',
+        status: 'error',
+        description: error?.message ?? 'Check console',
+      });
+    },
+  });
+}
+
+export type TAddBlackoutMutationInput = {
+  profileId: number;
+};
+
+export function useAddBlackout() {
+  const supabase = useSupabase();
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: TAddBlackoutMutationInput) => {
+      await supabase.from('blackouts').insert({
+        profileId: data.profileId,
+      }).single().throwOnError();
+    },
+    onSuccess: (_, v) => {
+      toast({
+        title: 'Zgon dodany',
+        status: 'success',
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['blackouts'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['blackouts', v.profileId],
+      });
+    },
+    onError: (error: {message?: string}) => {
+      console.error(error);
+      toast({
+        title: 'Błąd podczas dodawania zgona',
         status: 'error',
         description: error?.message ?? 'Check console',
       });

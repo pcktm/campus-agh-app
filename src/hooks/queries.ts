@@ -118,3 +118,37 @@ export function useLatestEvents(limit?: number) {
     refetchOnWindowFocus: import.meta.env.PROD,
   });
 }
+
+export function useBlackouts() {
+  const client = useSupabase();
+  const key = ['blackouts'];
+
+  return useQuery(key, async () => {
+    const {data} = await client
+      .from('blackouts')
+      .select('*')
+      .throwOnError();
+
+    return data;
+  }, {
+    refetchOnWindowFocus: import.meta.env.PROD,
+  });
+}
+
+export function useBlackoutsByProfile(profileId: string | null) {
+  const client = useSupabase();
+  const key = ['blackouts', profileId];
+
+  return useQuery(key, async () => {
+    const {data} = await client
+      .from('blackouts')
+      .select('*')
+      .eq('profileId', profileId)
+      .throwOnError();
+
+    return data;
+  }, {
+    refetchOnWindowFocus: import.meta.env.PROD,
+    enabled: !!profileId,
+  });
+}
