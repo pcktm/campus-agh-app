@@ -1,6 +1,6 @@
 import {createClient} from '@supabase/supabase-js';
 import {useMemo} from 'react';
-import type {Database} from '../utils/supabase';
+import type {Database} from '../utils/database.ts';
 
 export const getSupabaseClient = () => {
   const supabaseUrl = import.meta.env.VITE_SUPABASE_BASE_URL;

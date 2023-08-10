@@ -4,6 +4,7 @@ import {
 import AddAchievementModal from '../components/admin/AddAchievement.tsx';
 import UpdateMotdModal from '../components/admin/UpdateMotd.tsx';
 import {useSupabase} from '../hooks/useSupabase.ts';
+import AddBlackOutModal from '../components/admin/AddBlackOut.tsx';
 
 export default function AdminView() {
   const supabase = useSupabase();
@@ -14,9 +15,9 @@ export default function AdminView() {
     <Container mt={4} borderRadius="md" p={4} maxW="container.sm">
       <Stack direction="row" alignItems="center">
         <Heading as="h1" size="md" flex={1}>Epic Campus Admin</Heading>
-        <Button colorScheme="red" onClick={handleLogout} size="sm" variant="link">
+        {/* <Button colorScheme="red" onClick={handleLogout} size="sm" variant="link">
           Wyloguj
-        </Button>
+        </Button> */}
       </Stack>
       <Divider my={4} />
       <Box>
@@ -35,6 +36,9 @@ export default function AdminView() {
         <Wrap>
           <WrapItem>
             <AddAchievementModal />
+          </WrapItem>
+          <WrapItem>
+            <AddBlackOutModal />
           </WrapItem>
         </Wrap>
       </Box>

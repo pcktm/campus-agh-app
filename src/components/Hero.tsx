@@ -2,11 +2,11 @@ import {
   Box, Image, Center, Heading, Skeleton,
 } from '@chakra-ui/react';
 import logo from '../assets/logo.svg';
-import {useUser, useProfileQuery} from '../hooks/queries.ts';
+import {useUser, useProfileById} from '../hooks/queries.ts';
 
 export default function Hero() {
   const {data: user} = useUser();
-  const {data: profile, isLoading: isProfileLoading} = useProfileQuery(user?.id);
+  const {data: profile, isLoading: isProfileLoading} = useProfileById(user?.id);
   return (
     <Box>
       <Center flexDirection="column">

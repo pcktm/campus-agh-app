@@ -3,34 +3,34 @@ import {
 } from '@chakra-ui/react';
 import {useMemo} from 'react';
 import {
-  usePersonalAchievements, useProfileQuery, useTeamAchievements, useUser,
+  useProfiles, useProfileById, useTeams, useUser,
 } from '../hooks/queries.ts';
 
 export default function PointsDisplay() {
   const {data: user} = useUser();
-  const {data: profile} = useProfileQuery(user?.id);
-  const {data: personalAchievements, isLoading: personalLoading} = usePersonalAchievements();
-  const {data: teamAchievements, isLoading: teamLoading} = useTeamAchievements();
+  const {data: profile} = useProfileById(user?.id);
+  const {data: profiles, isLoading: personalLoading} = useProfiles();
+  const {data: teams, isLoading: teamLoading} = useTeams();
 
   const pointsByUser = useMemo(() => {
     const points: Record<string, number> = {};
-    personalAchievements?.forEach((a) => {
-      if (!a.profiles?.id) return;
-      points[a.profiles.id] = (points[a.profiles.id] ?? 0) + (a.score ?? 0);
+    profiles?.forEach((a) => {
+      if (!a.id) return;
+      points[a.id] = a.user_points.reduce((acc, p) => acc + (p.score ?? 0), 0);
     });
     const sorted = Object.entries(points).sort(([, a], [, b]) => b - a);
     return sorted;
-  }, [personalAchievements]);
+  }, [profiles]);
 
   const pointsByTeam = useMemo(() => {
     const points: Record<string, number> = {};
-    teamAchievements?.forEach((a) => {
-      if (!a.teams) return;
-      points[a.teams.id] = (points[a.teams.id] ?? 0) + (a.score ?? 0);
+    teams?.forEach((a) => {
+      if (!a.id) return;
+      points[a.id] = a.team_points.reduce((acc, p) => acc + (p.score ?? 0), 0);
     });
     const sorted = Object.entries(points).sort(([, a], [, b]) => b - a);
     return sorted;
-  }, [teamAchievements]);
+  }, [teams]);
 
   const personalPoints = pointsByUser.find(([id]) => id === String(profile?.id))?.[1];
   const teamPoints = pointsByTeam.find(([id]) => id === String(profile?.teamId))?.[1];

@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 
 const themeConfig = {
-  initialColorMode: 'dark',
+  initialColorMode: 'light',
   useSystemColorMode: false,
   colors: {
     brandRed: {

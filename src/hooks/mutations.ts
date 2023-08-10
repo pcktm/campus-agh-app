@@ -1,46 +1,72 @@
 import {useMutation} from '@tanstack/react-query';
 import {useToast} from '@chakra-ui/react';
 import {useSupabase} from './useSupabase.ts';
+import type {EventType} from '../types.d.ts';
 
-type TAchievement = {
+type TAddPointsMutationInput = {
   type: 'team' | 'personal';
   subjectId: number;
-  title: string;
-  description?: string;
+  reason: string;
   score: number;
 }
 
-export function useAddAchievement() {
+export function useAddEvent() {
   const supabase = useSupabase();
   const toast = useToast();
+
   return useMutation({
-    mutationFn: async (achievement: TAchievement) => {
-      if (achievement.type === 'team') {
-        await supabase.from('team_achievements').insert({
-          teamId: achievement.subjectId,
-          title: achievement.title,
-          description: achievement.description,
-          score: achievement.score,
-        }).single().throwOnError();
-      } else if (achievement.type === 'personal') {
-        await supabase.from('user_achievements').insert({
-          profileId: achievement.subjectId,
-          title: achievement.title,
-          description: achievement.description,
-          score: achievement.score,
-        }).single().throwOnError();
-      }
+    mutationFn: async ({content, icon = 'generic'}: {content: string, icon?: EventType}) => {
+      await supabase.from('events').insert({
+        content,
+        icon,
+      }).single().throwOnError();
     },
     onSuccess: () => {
       toast({
-        title: 'Osiągnięcie dodane',
+        title: 'Zdarzenie dodane',
         status: 'success',
       });
     },
     onError: (error: {message?: string}) => {
       console.error(error);
       toast({
-        title: 'Błąd podczas dodawania osiągnięcia',
+        title: 'Błąd podczas dodawania zdarzenia',
+        status: 'error',
+        description: error?.message ?? 'Check console',
+      });
+    },
+  });
+}
+
+export function useAddPoints() {
+  const supabase = useSupabase();
+  const toast = useToast();
+  return useMutation({
+    mutationFn: async (data: TAddPointsMutationInput) => {
+      if (data.type === 'team') {
+        await supabase.from('team_points').insert({
+          teamId: data.subjectId,
+          reason: data.reason,
+          score: data.score,
+        }).single().throwOnError();
+      } else if (data.type === 'personal') {
+        await supabase.from('user_points').insert({
+          profileId: data.subjectId,
+          reason: data.reason,
+          score: data.score,
+        }).single().throwOnError();
+      }
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Punkty dodane',
+        status: 'success',
+      });
+    },
+    onError: (error: {message?: string}) => {
+      console.error(error);
+      toast({
+        title: 'Błąd podczas dodawania punktów',
         status: 'error',
         description: error?.message ?? 'Check console',
       });

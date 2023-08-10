@@ -9,6 +9,79 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      achievable_tasks: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          is_personal: boolean
+          points: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_personal?: boolean
+          points?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          is_personal?: boolean
+          points?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      blackouts: {
+        Row: {
+          created_at: string
+          id: number
+          profileId: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          profileId: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          profileId?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'blackouts_profileId_fkey'
+            columns: ['profileId']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          }
+        ]
+      }
+      events: {
+        Row: {
+          content: string
+          created_at: string
+          icon: string | null
+          id: number
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          icon?: string | null
+          id?: number
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          icon?: string | null
+          id?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           createdAt: string | null
@@ -70,34 +143,31 @@ export interface Database {
         }
         Relationships: []
       }
-      team_achievements: {
+      team_points: {
         Row: {
           createdAt: string | null
-          description: string | null
           id: number
+          reason: string
           score: number | null
           teamId: number | null
-          title: string
         }
         Insert: {
           createdAt?: string | null
-          description?: string | null
           id?: number
+          reason: string
           score?: number | null
           teamId?: number | null
-          title: string
         }
         Update: {
           createdAt?: string | null
-          description?: string | null
           id?: number
+          reason?: string
           score?: number | null
           teamId?: number | null
-          title?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'team_achievements_teamId_fkey'
+            foreignKeyName: 'team_points_teamId_fkey'
             columns: ['teamId']
             referencedRelation: 'teams'
             referencedColumns: ['id']
@@ -125,34 +195,31 @@ export interface Database {
         }
         Relationships: []
       }
-      user_achievements: {
+      user_points: {
         Row: {
           createdAt: string | null
-          description: string | null
           id: number
           profileId: number
+          reason: string
           score: number | null
-          title: string
         }
         Insert: {
           createdAt?: string | null
-          description?: string | null
           id?: number
           profileId: number
+          reason: string
           score?: number | null
-          title: string
         }
         Update: {
           createdAt?: string | null
-          description?: string | null
           id?: number
           profileId?: number
+          reason?: string
           score?: number | null
-          title?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'user_achievements_profileId_fkey'
+            foreignKeyName: 'user_points_profileId_fkey'
             columns: ['profileId']
             referencedRelation: 'profiles'
             referencedColumns: ['id']

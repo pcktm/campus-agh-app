@@ -1,7 +1,7 @@
 import {useQuery} from '@tanstack/react-query';
 import {useSupabase} from './useSupabase.ts';
 
-export function useProfileQuery(userId?: string) {
+export function useProfileById(userId?: string) {
   const client = useSupabase();
   const key = ['user', userId];
 
@@ -28,56 +28,16 @@ export function useUser() {
   });
 }
 
-export function usePersonalAchievements() {
+export function useProfiles() {
   const client = useSupabase();
-  const key = ['user_achievements'];
-
-  return useQuery(key, async () => {
-    const {data} = await client
-      .from('user_achievements')
-      .select(`
-        id, title, description, score, createdAt, profiles (
-          id, userId, teamId, createdAt, firstName, lastName
-        )
-      `)
-      .throwOnError();
-
-    return data;
-  }, {
-    refetchOnWindowFocus: import.meta.env.PROD,
-  });
-}
-
-export function useTeamAchievements() {
-  const client = useSupabase();
-  const key = ['team_achievements'];
-
-  return useQuery(key, async () => {
-    const {data} = await client
-      .from('team_achievements')
-      .select(`
-        id, title, description, score, createdAt, teams (
-          id, name, createdAt
-        )
-      `)
-      .throwOnError();
-
-    return data;
-  }, {
-    refetchOnWindowFocus: import.meta.env.PROD,
-  });
-}
-
-export function useProfilesWithAchievements() {
-  const client = useSupabase();
-  const key = ['achievements_by_profile'];
+  const key = ['profiles_with_points_and_teams'];
 
   return useQuery(key, async () => {
     const {data} = await client
       .from('profiles')
       .select(`
-        id, userId, createdAt, firstName, lastName, user_achievements (
-          id, title, description, score, createdAt
+        id, userId, createdAt, firstName, lastName, user_points (
+          id, score, createdAt
         ),
         teams (
           id, name
@@ -91,16 +51,16 @@ export function useProfilesWithAchievements() {
   });
 }
 
-export function useTeamsWithAchievements() {
+export function useTeams() {
   const client = useSupabase();
-  const key = ['achievements_by_team'];
+  const key = ['teams_with_points'];
 
   return useQuery(key, async () => {
     const {data} = await client
       .from('teams')
       .select(`
-        id, name, createdAt, team_achievements (
-          id, title, description, score, createdAt
+        id, name, createdAt, team_points (
+          id, score, createdAt
         )
       `)
       .throwOnError();
@@ -139,4 +99,22 @@ export function useMotd(): string | undefined {
 export function useIsAdmin() {
   const {data} = useUser();
   return data?.email?.endsWith('@samorzad.agh.edu.pl') ?? false;
+}
+
+export function useLatestEvents(limit?: number) {
+  const client = useSupabase();
+  const key = ['events', limit];
+
+  return useQuery(key, async () => {
+    const {data} = await client
+      .from('events')
+      .select('*')
+      .order('created_at', {ascending: false})
+      .limit(limit ?? 10)
+      .throwOnError();
+
+    return data;
+  }, {
+    refetchOnWindowFocus: import.meta.env.PROD,
+  });
 }

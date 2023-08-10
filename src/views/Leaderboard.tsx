@@ -13,7 +13,7 @@ import {
 import {useMemo} from 'react';
 import {ScrollRestoration} from 'react-router-dom';
 import {
-  useProfilesWithAchievements, useTeamsWithAchievements,
+  useProfiles, useTeams,
 } from '../hooks/queries.ts';
 
 type TScore = {
@@ -57,13 +57,13 @@ function LeaderboardTable({data}: {data: TScore[]}) {
 }
 
 export default function LeaderboardView() {
-  const {data: usersWithAchivements} = useProfilesWithAchievements();
-  const {data: teamWithAchievements} = useTeamsWithAchievements();
+  const {data: usersWithAchivements} = useProfiles();
+  const {data: teamWithAchievements} = useTeams();
 
   const personalLeaderboard: TScore[] = useMemo(() => {
     const scores: TScore[] = [];
     for (const user of usersWithAchivements ?? []) {
-      const score = user.user_achievements.reduce((acc, curr) => acc + (curr.score ?? 0), 0);
+      const score = user.user_points.reduce((acc, curr) => acc + (curr.score ?? 0), 0);
       scores.push({
         id: user.id,
         subject: `${user.firstName} ${user.lastName}`,
@@ -76,7 +76,7 @@ export default function LeaderboardView() {
   const teamLeaderboard: TScore[] = useMemo(() => {
     const scores: TScore[] = [];
     for (const team of teamWithAchievements ?? []) {
-      const score = team.team_achievements.reduce((acc, curr) => acc + (curr.score ?? 0), 0);
+      const score = team.team_points.reduce((acc, curr) => acc + (curr.score ?? 0), 0);
       scores.push({
         id: team.id,
         subject: team.name,

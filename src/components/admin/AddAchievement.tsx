@@ -6,8 +6,8 @@ import {
 } from '@chakra-ui/react';
 import {useEffect, useMemo, useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
-import {useAddAchievement} from '../../hooks/mutations.ts';
-import {useProfilesWithAchievements, useTeamsWithAchievements} from '../../hooks/queries.ts';
+import {useAddPoints, useAddEvent} from '../../hooks/mutations.ts';
+import {useProfiles, useTeams} from '../../hooks/queries.ts';
 
 type Inputs = {
   selectedType: 'personal' | 'team';
@@ -18,9 +18,11 @@ type Inputs = {
 
 export default function AddAchievementModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const {data: profiles} = useProfilesWithAchievements();
-  const {data: teams} = useTeamsWithAchievements();
-  const addAchievement = useAddAchievement();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {data: profiles} = useProfiles();
+  const {data: teams} = useTeams();
+  const addPoints = useAddPoints();
+  const addEvent = useAddEvent();
   const toast = useToast();
 
   const {
@@ -37,16 +39,19 @@ export default function AddAchievementModal() {
   const selectedType = watch('selectedType');
 
   const subjects = useMemo(() => {
+    let subs: {id: number, name: string}[] = [];
     if (selectedType === 'personal') {
-      return profiles?.map((profile) => ({
+      subs = (profiles ?? []).map((profile) => ({
         id: profile.id,
         name: `${profile.firstName} ${profile.lastName} (${profile?.teams?.name})`,
       }));
+    } else {
+      subs = (teams ?? []).map((team) => ({
+        id: team.id,
+        name: team.name,
+      }));
     }
-    return teams?.map((team) => ({
-      id: team.id,
-      name: team.name,
-    }));
+    return subs.sort((a, b) => a.name.localeCompare(b.name));
   }, [profiles, teams, selectedType]);
 
   useEffect(() => {
@@ -58,8 +63,7 @@ export default function AddAchievementModal() {
     reset();
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.debug(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (!data.selectedSubject || !data.achievementTitle || !data.achievementScore) {
       toast({
         title: 'Nie udało się dodać osiągnięcia',
@@ -70,12 +74,22 @@ export default function AddAchievementModal() {
       });
       return;
     }
-    addAchievement.mutate({
+    setIsSubmitting(true);
+    await addPoints.mutateAsync({
       type: data.selectedType,
       subjectId: Number(data.selectedSubject),
-      title: data.achievementTitle,
+      reason: `Osiągnięcie: ${data.achievementTitle}`,
       score: data.achievementScore,
     });
+    const subject = subjects?.find((s) => s.id === Number(data.selectedSubject));
+    if (subject) {
+      await addEvent.mutateAsync({
+        // eslint-disable-next-line max-len
+        content: `${subject.name} ${data.selectedType === 'team' ? 'zdobywają' : 'zdobywa'} osiągnięcie ${data.achievementTitle} (${data.achievementScore} pkt)`,
+        icon: 'achievement',
+      });
+    }
+    setIsSubmitting(false);
     handleClose();
   };
 
@@ -141,7 +155,7 @@ export default function AddAchievementModal() {
 
             <ModalFooter>
               <Button variant="ghost" mr={3} onClick={handleClose}>Anuluj</Button>
-              <Button colorScheme="green" type="submit">
+              <Button colorScheme="green" type="submit" isLoading={isSubmitting}>
                 Dodaj
               </Button>
             </ModalFooter>
