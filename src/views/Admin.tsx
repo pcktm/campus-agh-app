@@ -1,5 +1,5 @@
 import {
-  Heading, Box, Container, Divider, Wrap, WrapItem, Stack, Button,
+  Heading, Box, Container, Divider, Wrap, WrapItem, Stack,
 } from '@chakra-ui/react';
 import AddAchievementModal from '../components/admin/AddAchievement.tsx';
 import UpdateMotdModal from '../components/admin/UpdateMotd.tsx';

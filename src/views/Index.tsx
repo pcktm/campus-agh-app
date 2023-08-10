@@ -1,14 +1,12 @@
 import {
   Box, Button, Container, Divider, Icon,
-  Link,
   SimpleGrid, Stack, Text,
 } from '@chakra-ui/react';
 import {
-  RiArrowRightLine, RiBarChart2Line, RiCalendarTodoFill, RiListCheck3, RiShakeHandsLine,
+  RiBarChart2Line, RiCalendarTodoFill, RiListCheck3, RiShakeHandsLine,
 } from 'react-icons/ri';
-import {Link as RouterLink} from 'react-router-dom';
-import LatestEventsBox from '../components/LatestEventsBox.tsx';
 import Hero from '../components/Hero.tsx';
+import LatestEventsBox from '../components/LatestEventsBox.tsx';
 import LinkCard from '../components/LinkCard.tsx';
 import MotdDisplay from '../components/MotdDisplay.tsx';
 import PointsDisplay from '../components/PointsDisplay.tsx';

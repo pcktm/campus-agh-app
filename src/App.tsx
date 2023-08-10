@@ -2,17 +2,16 @@ import {
   Center, Heading, ScaleFade, Spinner, Stack,
 } from '@chakra-ui/react';
 import {Session} from '@supabase/supabase-js';
-import React, {useEffect, useState, Suspense} from 'react';
+import {useQueryClient} from '@tanstack/react-query';
+import React, {Suspense, useEffect, useState} from 'react';
 import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import {useQueryClient} from '@tanstack/react-query';
 import {useSupabase} from './hooks/useSupabase.ts';
 import AuthView from './views/Auth.tsx';
 import IndexView from './views/Index.tsx';
 import LeaderboardView from './views/Leaderboard.tsx';
-import {useIsAdmin} from './hooks/queries.ts';
 import PartnershipView from './views/Partnerships.tsx';
 import TaskListView from './views/Tasks.tsx';
 
