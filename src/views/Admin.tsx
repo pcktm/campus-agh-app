@@ -1,23 +1,18 @@
 import {
-  Heading, Box, Container, Divider, Wrap, WrapItem, Stack,
+  Box, Container, Divider,
+  Heading,
+  Stack,
+  Wrap, WrapItem,
 } from '@chakra-ui/react';
 import AddAchievementModal from '../components/admin/AddAchievement.tsx';
-import UpdateMotdModal from '../components/admin/UpdateMotd.tsx';
-import {useSupabase} from '../hooks/useSupabase.ts';
 import AddBlackOutModal from '../components/admin/AddBlackOut.tsx';
+import UpdateMotdModal from '../components/admin/UpdateMotd.tsx';
 
 export default function AdminView() {
-  const supabase = useSupabase();
-  const handleLogout = () => {
-    supabase.auth.signOut();
-  };
   return (
     <Container mt={4} borderRadius="md" p={4} maxW="container.sm">
       <Stack direction="row" alignItems="center">
         <Heading as="h1" size="md" flex={1}>Epic Campus Admin</Heading>
-        {/* <Button colorScheme="red" onClick={handleLogout} size="sm" variant="link">
-          Wyloguj
-        </Button> */}
       </Stack>
       <Divider my={4} />
       <Box>

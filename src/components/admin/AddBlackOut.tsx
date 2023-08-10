@@ -2,7 +2,7 @@ import {
   Box, Button, FormControl, FormHelperText, FormLabel,
   Modal, ModalBody, ModalCloseButton, ModalContent,
   ModalFooter, ModalHeader, ModalOverlay,
-  Select, Text,
+  Select,
   useToast,
 } from '@chakra-ui/react';
 import {useMemo, useState} from 'react';

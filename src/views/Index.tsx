@@ -40,7 +40,7 @@ export default function IndexView() {
       <Divider mt={4} borderColor="gray.400" />
 
       <Box mt={6}>
-        <SimpleGrid columns={2} spacing={4}>
+        <SimpleGrid columns={[1, 2]} spacing={4}>
           {
             isAdmin && (
               <LinkCard
@@ -79,18 +79,23 @@ export default function IndexView() {
         </SimpleGrid>
       </Box>
 
-      <Stack mt={6} spacing={2} align="center" justifyContent="center">
+      <Stack mt={6} spacing={0} align="center" justifyContent="center">
         <Button
           variant="link"
           size="xs"
           onClick={() => {
             supabase.auth.signOut();
           }}
+          mb={2}
         >
           Wyloguj się
         </Button>
-        <Text fontSize="xs" color="gray.500" textAlign="center">
+        <Text fontSize="2xs" color="gray.400" textAlign="center">
           {user?.id}
+        </Text>
+        <Text fontSize="2xs" color="gray.400" textAlign="center">
+          {/* eslint-disable-next-line no-undef */}
+          {__BUILD_DATE__}
         </Text>
       </Stack>
     </Container>

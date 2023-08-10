@@ -8,4 +8,7 @@ export default defineConfig({
     minify: 'esbuild',
   },
   base: process.env.VERCEL ? '/' : '/app/',
+  define: {
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+  },
 });
