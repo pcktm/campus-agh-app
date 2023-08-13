@@ -85,7 +85,7 @@ export default function AddAchievementModal() {
     if (subject) {
       await addEvent.mutateAsync({
         // eslint-disable-next-line max-len
-        content: `${subject.name} ${data.selectedType === 'team' ? 'zdobywają' : 'zdobywa'} osiągnięcie ${data.achievementTitle} (${data.achievementScore} pkt)`,
+        content: `${subject.name} ${data.selectedType === 'team' ? 'zdobywają' : 'zdobywa'} osiągnięcie „${data.achievementTitle}” (${data.achievementScore} pkt)`,
         icon: 'achievement',
       });
     }

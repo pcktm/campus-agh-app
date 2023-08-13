@@ -163,7 +163,7 @@ export function useAchievableTasks() {
       const {data} = await client
         .from('achievable_tasks')
         .select('id,title,description,points,is_personal')
-        .order('points', {ascending: true})
+        .order('points', {ascending: false})
         .throwOnError();
 
       return data;
@@ -173,3 +173,5 @@ export function useAchievableTasks() {
     },
   );
 }
+
+export type AchievableTask = NonNullable<ReturnType<typeof useAchievableTasks>['data']>[number];

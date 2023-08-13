@@ -97,9 +97,7 @@ function App() {
       <Suspense
         fallback={(
           <Center h="100vh">
-            <ScaleFade in>
-              <Spinner size="xl" color="brandRed.500" />
-            </ScaleFade>
+            <Spinner size="xl" color="brandRed.500" />
           </Center>
         )}
       >
