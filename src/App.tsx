@@ -9,7 +9,6 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import {useSupabase} from './hooks/useSupabase.ts';
-import AuthView from './views/Auth.tsx';
 import IndexView from './views/Index.tsx';
 import LeaderboardView from './views/Leaderboard.tsx';
 import PartnershipView from './views/Partnerships.tsx';
@@ -17,6 +16,7 @@ import TaskListView from './views/Tasks.tsx';
 import {MainLayout} from './layouts/MainLayout.tsx';
 
 const AdminView = React.lazy(() => import('./views/Admin.tsx'));
+const AuthView = React.lazy(() => import('./views/Auth.tsx'));
 
 const router = createBrowserRouter([
   {
@@ -86,7 +86,7 @@ function App() {
     return (
       <Center h="100vh">
         <ScaleFade in delay={0.5}>
-          <Spinner size="xl" color="black" />
+          <Spinner size="xl" color="brandRed.500" />
         </ScaleFade>
       </Center>
     );
@@ -94,7 +94,17 @@ function App() {
 
   if (session === null) {
     return (
-      <AuthView />
+      <Suspense
+        fallback={(
+          <Center h="100vh">
+            <ScaleFade in>
+              <Spinner size="xl" color="brandRed.500" />
+            </ScaleFade>
+          </Center>
+        )}
+      >
+        <AuthView />
+      </Suspense>
     );
   }
 
