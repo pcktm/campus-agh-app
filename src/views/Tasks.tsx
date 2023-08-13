@@ -1,5 +1,8 @@
+import {useAchievableTasks} from '../hooks/queries.ts';
+
 export default function TaskListView() {
+  const {data: tasks} = useAchievableTasks();
   return (
-    <div>Tasks</div>
+    <div>{JSON.stringify(tasks)}</div>
   );
 }

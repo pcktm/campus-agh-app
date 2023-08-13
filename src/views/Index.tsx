@@ -1,27 +1,34 @@
 import {
-  Box, Button, Container, Divider, Icon,
-  SimpleGrid, Stack, Text,
+  Box, Button, Center, Container, Divider, Heading, Icon,
+  SimpleGrid, Skeleton, Stack, Text,
 } from '@chakra-ui/react';
 import {
   RiBarChart2Line, RiCalendarTodoFill, RiListCheck3, RiShakeHandsLine,
 } from 'react-icons/ri';
-import Hero from '../components/Hero.tsx';
 import LatestEventsBox from '../components/LatestEventsBox.tsx';
 import LinkCard from '../components/LinkCard.tsx';
 import MotdDisplay from '../components/MotdDisplay.tsx';
-import PointsDisplay from '../components/PointsDisplay.tsx';
-import {useIsAdmin, useUser} from '../hooks/queries.ts';
+import PointsDisplay from '../components/PointsStatDisplay.tsx';
+import {useIsAdmin, useProfileById, useUser} from '../hooks/queries.ts';
 import {useSupabase} from '../hooks/useSupabase.ts';
 
 export default function IndexView() {
   const {data: user} = useUser();
+  const {data: profile, isLoading: isProfileLoading} = useProfileById(user?.id);
   const supabase = useSupabase();
   const isAdmin = useIsAdmin();
   return (
-    <Container mb={3}>
-      <Box mt={4}>
-        <Hero />
-      </Box>
+    <Container mb={3} maxW="container.md">
+      <Center>
+        <Skeleton isLoaded={!isProfileLoading}>
+          <Heading as="h1" size="md">
+            Witaj na Campusie,
+            {' '}
+            {profile?.firstName || 'Uczestniku'}
+            !
+          </Heading>
+        </Skeleton>
+      </Center>
       <Box mt={6}>
         <PointsDisplay />
         <Box mt={4} />

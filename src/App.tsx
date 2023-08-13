@@ -14,42 +14,49 @@ import IndexView from './views/Index.tsx';
 import LeaderboardView from './views/Leaderboard.tsx';
 import PartnershipView from './views/Partnerships.tsx';
 import TaskListView from './views/Tasks.tsx';
+import {MainLayout} from './layouts/MainLayout.tsx';
 
 const AdminView = React.lazy(() => import('./views/Admin.tsx'));
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <IndexView />,
-  },
-  {
-    path: '/leaderboard',
-    element: <LeaderboardView />,
-  },
-  {
-    path: '/partnerships',
-    element: <PartnershipView />,
-  },
-  {
-    path: '/tasks',
-    element: <TaskListView />,
-  },
-  {
-    path: '/admin',
-    element: (
-      <Suspense
-        fallback={(
-          <Center h="100vh">
-            <Stack spacing={4} align="center">
-              <Spinner size="xl" color="brandRed.500" />
-              <Heading as="h1" size="xs">Ładowanie panelu...</Heading>
-            </Stack>
-          </Center>
-          )}
-      >
-        <AdminView />
-      </Suspense>
-    ),
+    element: <MainLayout />,
+    children: [
+      {
+        path: '/',
+        element: <IndexView />,
+      },
+      {
+        path: '/leaderboard',
+        element: <LeaderboardView />,
+      },
+      {
+        path: '/partnerships',
+        element: <PartnershipView />,
+      },
+      {
+        path: '/tasks',
+        element: <TaskListView />,
+      },
+      {
+        path: '/admin',
+        element: (
+          <Suspense
+            fallback={(
+              <Center py={10}>
+                <Stack spacing={4} align="center">
+                  <Spinner size="xl" color="brandRed.500" />
+                  <Heading as="h1" size="xs">Ładowanie panelu...</Heading>
+                </Stack>
+              </Center>
+              )}
+          >
+            <AdminView />
+          </Suspense>
+        ),
+      },
+    ],
   },
 ], {
   basename: import.meta.env.BASE_URL,
@@ -90,23 +97,6 @@ function App() {
       <AuthView />
     );
   }
-
-  // if (session && isAdmin) {
-  //   return (
-  //     <Suspense
-  //       fallback={(
-  //         <Center h="100vh">
-  //           <Stack spacing={4} align="center">
-  //             <Spinner size="xl" color="brandRed.500" />
-  //             <Heading as="h1" size="xs">Ładowanie panelu...</Heading>
-  //           </Stack>
-  //         </Center>
-  //       )}
-  //     >
-  //       <AdminView />
-  //     </Suspense>
-  //   );
-  // }
 
   return (
     <RouterProvider router={router} />

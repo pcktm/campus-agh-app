@@ -13,6 +13,7 @@ import {
 import {useMemo} from 'react';
 import {ScrollRestoration} from 'react-router-dom';
 import {
+  useBlackouts,
   useProfiles, useTeams,
 } from '../hooks/queries.ts';
 
@@ -20,6 +21,7 @@ type TScore = {
   id: number;
   subject: string;
   score: number;
+  blackoutsCount: number;
 }
 
 function LeaderboardTable({data}: {data: TScore[]}) {
@@ -37,7 +39,8 @@ function LeaderboardTable({data}: {data: TScore[]}) {
           <Tr>
             <Th>Lp.</Th>
             <Th>Nazwa</Th>
-            <Th isNumeric>Wynik</Th>
+            <Th isNumeric>Punkty</Th>
+            <Th isNumeric>Zgony</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -47,6 +50,7 @@ function LeaderboardTable({data}: {data: TScore[]}) {
                 <Td>{index + 1}</Td>
                 <Td>{score.subject}</Td>
                 <Td isNumeric>{score.score}</Td>
+                <Td isNumeric>{score.blackoutsCount}</Td>
               </Tr>
             ))
           }
@@ -59,6 +63,7 @@ function LeaderboardTable({data}: {data: TScore[]}) {
 export default function LeaderboardView() {
   const {data: usersWithAchivements} = useProfiles();
   const {data: teamWithAchievements} = useTeams();
+  const {data: blackouts} = useBlackouts();
 
   const personalLeaderboard: TScore[] = useMemo(() => {
     const scores: TScore[] = [];
@@ -68,23 +73,26 @@ export default function LeaderboardView() {
         id: user.id,
         subject: `${user.firstName} ${user.lastName}`,
         score: score ?? 0,
+        blackoutsCount: blackouts?.filter((b) => b.profileId === user.id).length ?? 0,
       });
     }
     return scores.sort((a, b) => b.score - a.score);
-  }, [usersWithAchivements]);
+  }, [usersWithAchivements, blackouts]);
 
   const teamLeaderboard: TScore[] = useMemo(() => {
     const scores: TScore[] = [];
     for (const team of teamWithAchievements ?? []) {
       const score = team.team_points.reduce((acc, curr) => acc + (curr.score ?? 0), 0);
+      const usersInTeam = usersWithAchivements?.filter((u) => u.teams?.id === team.id).map((u) => u.id);
       scores.push({
         id: team.id,
         subject: team.name,
         score: score ?? 0,
+        blackoutsCount: blackouts?.filter((b) => usersInTeam?.includes(b.profileId)).length ?? 0,
       });
     }
     return scores.sort((a, b) => b.score - a.score);
-  }, [teamWithAchievements]);
+  }, [teamWithAchievements, usersWithAchivements, blackouts]);
 
   return (
     <>

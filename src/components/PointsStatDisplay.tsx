@@ -6,7 +6,7 @@ import {
   useProfiles, useProfileById, useTeams, useUser,
 } from '../hooks/queries.ts';
 
-export default function PointsDisplay() {
+export default function PointsStatDisplay() {
   const {data: user} = useUser();
   const {data: profile} = useProfileById(user?.id);
   const {data: profiles, isLoading: personalLoading} = useProfiles();

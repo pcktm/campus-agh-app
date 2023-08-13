@@ -152,3 +152,24 @@ export function useBlackoutsByProfile(profileId: string | null) {
     enabled: !!profileId,
   });
 }
+
+export function useAchievableTasks() {
+  const client = useSupabase();
+  const key = ['achievable_tasks'];
+
+  return useQuery(
+    key,
+    async () => {
+      const {data} = await client
+        .from('achievable_tasks')
+        .select('id,title,description,points,is_personal')
+        .order('points', {ascending: true})
+        .throwOnError();
+
+      return data;
+    },
+    {
+      refetchOnWindowFocus: import.meta.env.PROD,
+    },
+  );
+}
