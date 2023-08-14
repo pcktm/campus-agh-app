@@ -1,14 +1,14 @@
 import {
-  Box, Button, FormControl, FormHelperText, FormLabel,
+  Box, Button,
   Modal, ModalBody, ModalCloseButton, ModalContent,
-  ModalFooter, ModalHeader, ModalOverlay,
-  Select,
+  ModalFooter, ModalHeader, ModalOverlay, Text,
   useToast,
 } from '@chakra-ui/react';
 import {useMemo, useState} from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useAddBlackout, useAddEvent, useAddPoints} from '../../hooks/mutations.ts';
 import {useBlackoutsByProfile, useProfiles} from '../../hooks/queries.ts';
+import ProfileSelect from './ProfileSelect.tsx';
 
 type Inputs = {
   selectedSubject: string | null;
@@ -36,7 +36,7 @@ export default function AddBlackOutModal() {
   const toast = useToast();
 
   const {
-    register, handleSubmit, reset, watch,
+    handleSubmit, reset, watch, setValue,
   } = useForm<Inputs>({
     mode: 'onBlur',
     defaultValues: {
@@ -118,27 +118,12 @@ export default function AddBlackOutModal() {
           <ModalCloseButton />
           <form onSubmit={handleSubmit(onSubmit)}>
             <ModalBody>
-              <FormControl>
-                <FormLabel>
-                  Uczestnik
-                </FormLabel>
-                <Select
-                  placeholder="Wybierz uczestnika"
-                  required
-                  {...register('selectedSubject')}
-                >
-                  {
-                subjects?.map((subject) => (
-                  <option key={subject.id} value={subject.id}>{subject.name}</option>
-                ))
-              }
-                </Select>
-                {
+              <ProfileSelect onSelect={(id) => setValue('selectedSubject', id)} />
+              {
                 hasBlackedOutInLast10Hours && (
-                <FormHelperText color="red.500">Ten wojownik zaliczył już zgona w ostatnich 10 godzinach!</FormHelperText>
+                  <Text color="red.500">Ten wojownik zaliczył już zgona w ostatnich 10 godzinach!</Text>
                 )
               }
-              </FormControl>
             </ModalBody>
             <ModalFooter>
               <Button variant="ghost" mr={3} onClick={handleClose}>Anuluj</Button>
@@ -146,7 +131,7 @@ export default function AddBlackOutModal() {
                 colorScheme={hasBlackedOutInLast10Hours ? 'red' : 'green'}
                 type="submit"
                 isLoading={isSubmitting}
-                disabled={lastBlackoutsLoading}
+                isDisabled={lastBlackoutsLoading || !selectedSubject}
               >
                 Dodaj
                 {' '}

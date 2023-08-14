@@ -4,7 +4,7 @@ import {
   Modal, ModalBody, ModalCloseButton, ModalContent,
   ModalFooter, ModalHeader, ModalOverlay,
 } from '@chakra-ui/react';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useMemo} from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {useQueryClient} from '@tanstack/react-query';
 import {useUpdateMotd} from '../../hooks/mutations.ts';
@@ -20,7 +20,7 @@ export default function UpdateMotdModal() {
   const updateMotd = useUpdateMotd();
   const queryClient = useQueryClient();
   const {
-    register, handleSubmit, setValue,
+    register, handleSubmit, setValue, watch,
   } = useForm<Inputs>();
 
   const handleClose = () => {
@@ -40,6 +40,7 @@ export default function UpdateMotdModal() {
     handleClose();
   };
 
+  const motd = watch('motd');
   return (
     <Box>
       <Button
@@ -67,7 +68,11 @@ export default function UpdateMotdModal() {
             </ModalBody>
             <ModalFooter>
               <Button variant="ghost" mr={3} onClick={handleClose}>Anuluj</Button>
-              <Button colorScheme="green" type="submit">
+              <Button
+                colorScheme="green"
+                type="submit"
+                isDisabled={(currentMotd ?? '') === motd}
+              >
                 Zmień
               </Button>
             </ModalFooter>

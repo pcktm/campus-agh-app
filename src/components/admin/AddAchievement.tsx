@@ -168,7 +168,11 @@ export default function AddAchievementModal() {
 
             <ModalFooter>
               <Button variant="ghost" mr={3} onClick={handleClose}>Anuluj</Button>
-              <Button colorScheme="green" type="submit" isLoading={isSubmitting}>
+              <Button
+                colorScheme="green"
+                type="submit"
+                isLoading={isSubmitting}
+              >
                 Dodaj
               </Button>
             </ModalFooter>
