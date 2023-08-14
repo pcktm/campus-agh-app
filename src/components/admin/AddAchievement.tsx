@@ -2,12 +2,14 @@ import {
   Box, Button, FormControl, FormLabel,
   Input,
   Modal, ModalBody, ModalCloseButton, ModalContent,
-  ModalFooter, ModalHeader, ModalOverlay, NumberInput, NumberInputField, Radio, RadioGroup, Select, Stack, useToast,
+  ModalFooter, ModalHeader, ModalOverlay, NumberInput, NumberInputField, Radio, RadioGroup, Select as ChakraSelect, Stack, useToast,
 } from '@chakra-ui/react';
 import {useEffect, useMemo, useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {useAddPoints, useAddEvent} from '../../hooks/mutations.ts';
-import {useProfiles, useTeams} from '../../hooks/queries.ts';
+import {useAchievableTasks, useProfiles, useTeams} from '../../hooks/queries.ts';
+import ProfileSelect from './ProfileSelect.tsx';
+import TeamSelect from './TeamSelect.tsx';
 
 type Inputs = {
   selectedType: 'personal' | 'team';
@@ -21,12 +23,13 @@ export default function AddAchievementModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {data: profiles} = useProfiles();
   const {data: teams} = useTeams();
+  const {data: tasks} = useAchievableTasks();
   const addPoints = useAddPoints();
   const addEvent = useAddEvent();
   const toast = useToast();
 
   const {
-    register, handleSubmit, reset, watch, resetField,
+    register, handleSubmit, reset, watch, resetField, setValue,
   } = useForm<Inputs>({
     mode: 'onBlur',
     defaultValues: {
@@ -123,22 +126,15 @@ export default function AddAchievementModal() {
                 </RadioGroup>
               </FormControl>
 
-              <FormControl>
-                <FormLabel>
-                  {selectedType === 'personal' ? 'Uczestnik' : 'Drużyna'}
-                </FormLabel>
-                <Select
-                  placeholder={`Wybierz ${selectedType === 'personal' ? 'uczestnika' : 'drużynę'}`}
-                  required
-                  {...register('selectedSubject')}
-                >
-                  {
-                subjects?.map((subject) => (
-                  <option key={subject.id} value={subject.id}>{subject.name}</option>
-                ))
+              <Box mt={3}>
+                {
+                selectedType === 'personal' ? (
+                  <ProfileSelect onSelect={(id) => setValue('selectedSubject', String(id))} />
+                ) : (
+                  <TeamSelect onSelect={(id) => setValue('selectedSubject', String(id))} />
+                )
               }
-                </Select>
-              </FormControl>
+              </Box>
 
               <FormControl mt={3}>
                 <FormLabel>Tytuł osiągnięcia</FormLabel>
