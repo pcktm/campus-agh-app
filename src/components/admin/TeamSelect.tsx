@@ -3,12 +3,11 @@ import {Box, Heading} from '@chakra-ui/react';
 import {useTeams} from '../../hooks/queries.ts';
 import RichSelect from '../RichSelect.tsx';
 
-export default function TeamSelect({onSelect}: {onSelect: (id: string | number) => void}) {
+export default function TeamSelect({onSelect}: {onSelect: (id: string | null) => void}) {
   const {data: teams} = useTeams();
-  const [selectedTeam, setSelectedTeam] = useState<number | string>();
 
   const teamsToSelect = useMemo(() => teams?.map((team) => ({
-    id: team.id,
+    id: String(team.id),
     title: team.name,
   })), [teams]);
 
@@ -17,9 +16,9 @@ export default function TeamSelect({onSelect}: {onSelect: (id: string | number) 
       <RichSelect
         items={teamsToSelect ?? []}
         label="Drużyna"
+        placeholder="Wybierz drużynę"
         onSelect={(item) => {
-          setSelectedTeam(item.id);
-          onSelect(item.id);
+          onSelect(item?.id ?? null);
         }}
       />
     </Box>

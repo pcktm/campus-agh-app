@@ -2,7 +2,7 @@ import {
   Box, Button, FormControl, FormLabel,
   Input,
   Modal, ModalBody, ModalCloseButton, ModalContent,
-  ModalFooter, ModalHeader, ModalOverlay, NumberInput, NumberInputField, Radio, RadioGroup, Select as ChakraSelect, Stack, useToast,
+  ModalFooter, ModalHeader, ModalOverlay, NumberInput, NumberInputField, Radio, RadioGroup, Select as ChakraSelect, Stack, useToast, FormHelperText,
 } from '@chakra-ui/react';
 import {useEffect, useMemo, useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
@@ -10,10 +10,12 @@ import {useAddPoints, useAddEvent} from '../../hooks/mutations.ts';
 import {useAchievableTasks, useProfiles, useTeams} from '../../hooks/queries.ts';
 import ProfileSelect from './ProfileSelect.tsx';
 import TeamSelect from './TeamSelect.tsx';
+import TaskSelect from './TaskSelect.tsx';
 
 type Inputs = {
   selectedType: 'personal' | 'team';
   selectedSubject: string | null;
+  selectedTask: string | null;
   achievementTitle: string;
   achievementScore: number;
 };
@@ -40,6 +42,17 @@ export default function AddAchievementModal() {
     },
   });
   const selectedType = watch('selectedType');
+  const selectedTask = watch('selectedTask');
+
+  useEffect(() => {
+    if (selectedTask && tasks) {
+      const task = tasks?.find((t) => t.id === Number(selectedTask));
+      if (task) {
+        setValue('achievementTitle', task.title);
+        setValue('achievementScore', task.points);
+      }
+    }
+  }, [selectedTask, tasks, setValue]);
 
   const subjects = useMemo(() => {
     let subs: {id: number, name: string}[] = [];
@@ -67,7 +80,7 @@ export default function AddAchievementModal() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (!data.selectedSubject || !data.achievementTitle || !data.achievementScore) {
+    if (!data.selectedSubject || (!data.achievementTitle && !data.selectedTask) || !data.achievementScore) {
       toast({
         title: 'Nie udało się dodać osiągnięcia',
         description: 'Wypełnij wszystkie pola',
@@ -129,19 +142,23 @@ export default function AddAchievementModal() {
               <Box mt={3}>
                 {
                 selectedType === 'personal' ? (
-                  <ProfileSelect onSelect={(id) => setValue('selectedSubject', String(id))} />
+                  <ProfileSelect onSelect={(id) => setValue('selectedSubject', id)} />
                 ) : (
-                  <TeamSelect onSelect={(id) => setValue('selectedSubject', String(id))} />
+                  <TeamSelect onSelect={(id) => setValue('selectedSubject', id)} />
                 )
               }
               </Box>
 
-              <FormControl mt={3}>
+              <Box mt={3}>
+                <TaskSelect type={selectedType} onSelect={(id) => setValue('selectedTask', id)} />
+              </Box>
+
+              <FormControl mt={3} isDisabled={!!selectedTask}>
                 <FormLabel>Tytuł osiągnięcia</FormLabel>
-                <Input placeholder="Pierwszy zgon" {...register('achievementTitle')} required />
+                <Input placeholder="Pierwszy zgon" {...register('achievementTitle')} />
               </FormControl>
 
-              <FormControl mt={3}>
+              <FormControl mt={3} isDisabled={!!selectedTask}>
                 <FormLabel>Wartość punktowa</FormLabel>
                 <NumberInput defaultValue={15} min={0} max={300}>
                   <NumberInputField {...register('achievementScore')} required />

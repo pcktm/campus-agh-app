@@ -1,14 +1,14 @@
 import {useState, useEffect} from 'react';
 import {useCombobox} from 'downshift';
 import {
-  Button, Input, ListItem, Stack, UnorderedList, Text, FormLabel, Box, IconButton, FormControl,
+  Button, Input, ListItem, Stack, UnorderedList, Text, FormLabel, Box, IconButton, FormControl, InputGroup, InputRightElement,
 } from '@chakra-ui/react';
-import {RiArrowDownLine, RiArrowUpLine} from 'react-icons/ri';
+import {RiArrowDownLine, RiArrowUpLine, RiCloseLine} from 'react-icons/ri';
 
 export type RichSelectItem = {
-  id: string | number;
+  id: string;
   title: string;
-  subtitle?: string;
+  subtitle?: string | null;
 }
 
 const filterItems = (inputValue: string) => (item: RichSelectItem) => item.title.toLowerCase().includes(inputValue.toLowerCase());
@@ -16,7 +16,7 @@ const filterItems = (inputValue: string) => (item: RichSelectItem) => item.title
 type Props = {
   items: RichSelectItem[];
   label: string;
-  onSelect: (item: RichSelectItem) => void;
+  onSelect: (item: RichSelectItem | null) => void;
   placeholder?: string;
 }
 
@@ -33,6 +33,7 @@ export default function RichSelect({
     highlightedIndex,
     getItemProps,
     selectedItem,
+    reset,
   } = useCombobox({
     onInputValueChange({inputValue}) {
       if (!inputValue) {
@@ -52,18 +53,38 @@ export default function RichSelect({
     },
   });
 
+  useEffect(() => {
+    reset();
+    setItems(inputItems);
+  }, [inputItems, reset]);
+
   return (
     <Box>
       <Stack direction="column" gap={0}>
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <FormLabel {...getLabelProps()}>
           {label}
         </FormLabel>
         <FormControl as={Stack} gap={0.5} direction="row" align="center">
-          <Input
-            placeholder={placeholder}
-            {...getInputProps()}
-          />
+          <InputGroup>
+            <Input
+              pr="4.5rem"
+              placeholder={placeholder}
+              {...getInputProps()}
+            />
+            <InputRightElement width="3rem">
+              <IconButton
+                h="1.75rem"
+                size="sm"
+                aria-label="clear input"
+                icon={<RiCloseLine />}
+                onClick={() => {
+                  reset();
+                  onSelect(null);
+                }}
+              />
+            </InputRightElement>
+          </InputGroup>
+
           <IconButton
             aria-label="toggle menu"
             type="button"
@@ -75,9 +96,6 @@ export default function RichSelect({
         </FormControl>
       </Stack>
       <UnorderedList
-        className={`absolute w-72 bg-white mt-1 shadow-md max-h-80 overflow-scroll p-0 z-10 ${
-          !(isOpen && items.length) && 'hidden'
-        }`}
         sx={{
           position: 'absolute',
           zIndex: 10,
