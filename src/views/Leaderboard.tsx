@@ -97,7 +97,7 @@ export default function LeaderboardView() {
   return (
     <>
       <Box>
-        <Container pt={4}>
+        <Container pt={4} maxW="container.md">
           <Heading as="h1" size="lg" mb={4}>
             Tablica wyników
           </Heading>

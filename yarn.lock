@@ -1413,17 +1413,17 @@
   dependencies:
     cross-fetch "^3.1.5"
 
-"@supabase/gotrue-js@^2.31.0":
-  version "2.45.0"
-  resolved "https://registry.yarnpkg.com/@supabase/gotrue-js/-/gotrue-js-2.45.0.tgz#d40fcbab8a4414b0a71c67140ae4a76ad6e8d0a4"
-  integrity sha512-ctHQqk9foMHvU9pyGXbSbyalmyJ4dkpK/72jIytH5DbXxawqPIjUmJ+Ww9yyJLFP6wCsjPdeYBI+NW070WESvg==
+"@supabase/gotrue-js@^2.46.1":
+  version "2.47.0"
+  resolved "https://registry.yarnpkg.com/@supabase/gotrue-js/-/gotrue-js-2.47.0.tgz#67cca8f7be726fcfcc6dd49f515bbb20b2278f74"
+  integrity sha512-3e34/vsKH/DoSZCpB85UZpFWSJ2p4GRUUlqgAgeTPagPlx4xS+Nc5v7g7ic7vp3gK0J5PsYVCn9Qu2JQUp4vXg==
   dependencies:
     cross-fetch "^3.1.5"
 
-"@supabase/postgrest-js@^1.7.0":
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-1.7.2.tgz#800814b98bb8cec840b65f0c545a3474f23c343a"
-  integrity sha512-GK80JpRq8l6Qll85erICypAfQCied8tdlXfsDN14W844HqXCSOisk8AaE01DAwGJanieaoN5fuqhzA2yKxDvEQ==
+"@supabase/postgrest-js@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-1.8.0.tgz#c10b65e120c6523fc947225bcb9131869cf509f1"
+  integrity sha512-R6leDIC92NgjyG2/tCRJ42rWN7+fZY6ulTEE+c00tcnghn6cX4IYUlnTNMtrdfYC2JYNOTyM+rWj63Wdhr7Zig==
   dependencies:
     cross-fetch "^3.1.5"
 
@@ -1443,14 +1443,14 @@
   dependencies:
     cross-fetch "^3.1.5"
 
-"@supabase/supabase-js@^2.26.0":
-  version "2.26.0"
-  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-2.26.0.tgz#80eb5d7b6dc5ac7b29218f7211747e256184247a"
-  integrity sha512-RXmTPTobaYAwkSobadHZmEVLmzX3SGrtRZIGfLWnLv92VzBRrjuXn0a+bJqKl50GUzsyqPA+j5pod7EwMkcH5A==
+"@supabase/supabase-js@^2.32.0":
+  version "2.32.0"
+  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-2.32.0.tgz#863c636d83232c6a2e9ba5932e0d7c1bf80bc436"
+  integrity sha512-1ShFhuOI5Du7604nlCelBsRD61daXk2O0qwjumoz35bqrYThnSPPtpJqZOHw6Mg6o7mLjIInYLh/DBlh8UvzRg==
   dependencies:
     "@supabase/functions-js" "^2.1.0"
-    "@supabase/gotrue-js" "^2.31.0"
-    "@supabase/postgrest-js" "^1.7.0"
+    "@supabase/gotrue-js" "^2.46.1"
+    "@supabase/postgrest-js" "^1.8.0"
     "@supabase/realtime-js" "^2.7.3"
     "@supabase/storage-js" "^2.5.1"
     cross-fetch "^3.1.5"
@@ -3173,6 +3173,11 @@ nanoid@^3.3.6:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
   integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
 
+nanoid@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
+  integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
+
 natural-compare-lite@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare-lite/-/natural-compare-lite-1.4.0.tgz#17b09581988979fddafe0201e931ba933c96cbb4"
@@ -3368,6 +3373,11 @@ picomatch@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
+
+polish-plurals@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/polish-plurals/-/polish-plurals-1.1.0.tgz#c512cc06df8881c7f199dd12aba197552c3dada8"
+  integrity sha512-Sect6u4dScUC15pUZGhbfr7Q5o6CRAIpBj/KdkYf27EUa5Ls6+MkK5LXUH3PQL5aPAmFGnmJMXhdXzNLGc5V5A==
 
 postcss@^8.4.26:
   version "8.4.27"
@@ -3729,10 +3739,10 @@ stylis@4.2.0:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.2.0.tgz#79daee0208964c8fe695a42fcffcac633a211a51"
   integrity sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw==
 
-supabase@^1.77.9:
-  version "1.77.9"
-  resolved "https://registry.yarnpkg.com/supabase/-/supabase-1.77.9.tgz#d946ffdf32889b276488cf42017bd267b024667a"
-  integrity sha512-AyMaMsb+QpUMTE1XfV8Vhl/9G+Hkzk61RXf/JP5uyxc256hcb3N3FQoW2bi+A/BodJ/rfZOPE7vv+xtfVf6vyQ==
+supabase@^1.86.0:
+  version "1.86.0"
+  resolved "https://registry.yarnpkg.com/supabase/-/supabase-1.86.0.tgz#c8a65681625aa682de86f96da7a7a24991f3000e"
+  integrity sha512-yvIb1nS1J2BrJlVDVHJcZc8WYO1FatdHOOG992KFi7T/RlnFkBY9QBvvKV4JdY7tLfC107VNdXDiqg+Dnhoy5A==
   dependencies:
     bin-links "^4.0.1"
     node-fetch "^3.2.10"
@@ -4065,6 +4075,11 @@ yaml@^1.10.0:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
+
+yet-another-react-lightbox@^3.12.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/yet-another-react-lightbox/-/yet-another-react-lightbox-3.12.0.tgz#0b23c61724dce80b8696a65b782f5f3f1bd49605"
+  integrity sha512-Hd3CzPJJFFQ2TMP9QvhkuKouWJ/DIw/mrlPkUa6KiQu4AW+CwtKIiJsxWixNN9uS4sC10G0V1ULyJKpHs4yk8g==
 
 yocto-queue@^0.1.0:
   version "0.1.0"

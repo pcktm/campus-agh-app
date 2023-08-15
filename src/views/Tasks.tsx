@@ -10,7 +10,7 @@ export default function TaskListView() {
   const {data: tasks, isLoading: tasksLoading} = useAchievableTasks();
   return (
     <>
-      <Container py={5}>
+      <Container py={5} maxW="container.md">
         <Heading as="h1" size="lg" mb={5}>Zadania do wykonania</Heading>
 
         <Tabs colorScheme="brandRed" isFitted variant="soft-rounded">

@@ -162,7 +162,7 @@ export function useAchievableTasks() {
     async () => {
       const {data} = await client
         .from('achievable_tasks')
-        .select('id,title,description,points,is_personal')
+        .select('id,title,description,points,is_personal, task_solves (id, imageUrl)')
         .order('points', {ascending: false})
         .throwOnError();
 
@@ -174,4 +174,31 @@ export function useAchievableTasks() {
   );
 }
 
+export function useTaskSolves(taskId: string) {
+  const client = useSupabase();
+  const key = ['task_solves', taskId];
+
+  return useQuery(
+    key,
+    async () => {
+      const {data} = await client
+        .from('task_solves')
+        .select(`id, created_at, imageUrl, profiles (
+          id, firstName, lastName
+        ), teams (
+          id, name
+        )`)
+        .eq('id', taskId)
+        .order('created_at', {ascending: false})
+        .throwOnError();
+
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
+}
+
 export type AchievableTask = NonNullable<ReturnType<typeof useAchievableTasks>['data']>[number];
+export type TaskSolve = NonNullable<ReturnType<typeof useTaskSolves>['data']>[number];

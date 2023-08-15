@@ -71,12 +71,12 @@ export default function IndexView() {
             link="/tasks"
             icon={<Icon as={RiListCheck3} color="brandRed.400" fontSize="xl" />}
           />
-          <LinkCard
+          {/* <LinkCard
             title="Harmonogram"
             description="Sprawdź, co będzie się działo"
             link="/schedule"
             icon={<Icon as={RiCalendarTodoFill} color="brandRed.400" fontSize="xl" />}
-          />
+          /> */}
           <LinkCard
             title="Partnerzy"
             description="Zobacz, kto wspiera nasze przedsięwzięcie"

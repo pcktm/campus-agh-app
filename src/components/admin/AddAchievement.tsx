@@ -6,11 +6,13 @@ import {
 } from '@chakra-ui/react';
 import {useEffect, useMemo, useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
-import {useAddPoints, useAddEvent} from '../../hooks/mutations.ts';
+import {RiUpload2Line} from 'react-icons/ri';
+import {useAddPoints, useAddEvent, useAddTaskSolve} from '../../hooks/mutations.ts';
 import {useAchievableTasks, useProfiles, useTeams} from '../../hooks/queries.ts';
 import ProfileSelect from './ProfileSelect.tsx';
 import TeamSelect from './TeamSelect.tsx';
 import TaskSelect from './TaskSelect.tsx';
+import FileUploadInput from '../FileInput.tsx';
 
 type Inputs = {
   selectedType: 'personal' | 'team';
@@ -18,6 +20,7 @@ type Inputs = {
   selectedTask: string | null;
   achievementTitle: string;
   achievementScore: number;
+  image: FileList;
 };
 
 export default function AddAchievementModal() {
@@ -28,12 +31,13 @@ export default function AddAchievementModal() {
   const {data: tasks} = useAchievableTasks();
   const addPoints = useAddPoints();
   const addEvent = useAddEvent();
+  const addTaskSolve = useAddTaskSolve();
   const toast = useToast();
 
   const {
-    register, handleSubmit, reset, watch, resetField, setValue,
+    register, handleSubmit, reset, watch, resetField, setValue, formState: {errors},
   } = useForm<Inputs>({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       selectedType: 'team',
       selectedSubject: null,
@@ -43,6 +47,7 @@ export default function AddAchievementModal() {
   });
   const selectedType = watch('selectedType');
   const selectedTask = watch('selectedTask');
+  const selectedFile = watch('image');
 
   useEffect(() => {
     if (selectedTask && tasks) {
@@ -72,6 +77,7 @@ export default function AddAchievementModal() {
 
   useEffect(() => {
     resetField('selectedSubject');
+    resetField('selectedTask');
   }, [selectedType, resetField]);
 
   const handleClose = () => {
@@ -91,6 +97,14 @@ export default function AddAchievementModal() {
       return;
     }
     setIsSubmitting(true);
+    if (data.selectedTask) {
+      await addTaskSolve.mutateAsync({
+        image: data.image[0],
+        taskId: data.selectedTask,
+        type: data.selectedType,
+        subjectId: data.selectedSubject,
+      });
+    }
     await addPoints.mutateAsync({
       type: data.selectedType,
       subjectId: Number(data.selectedSubject),
@@ -152,6 +166,38 @@ export default function AddAchievementModal() {
               <Box mt={3}>
                 <TaskSelect type={selectedType} onSelect={(id) => setValue('selectedTask', id)} />
               </Box>
+
+              {
+                selectedTask && (
+                  <FormControl mt={3} isInvalid={!!errors.image}>
+                    <FormLabel>Zdjęcie wykonanego zadania</FormLabel>
+                    <FileUploadInput
+                      register={register('image', {
+                        validate: (value: FileList) => {
+                          for (const file of Array.from(value)) {
+                            // it must not be larger than 5mb
+                            if (file.size > 5 * 1024 * 1024) {
+                              return 'Zdjęcie nie może być większe niż 5MB';
+                            }
+                          }
+                          return true;
+                        },
+                      })}
+                      accept="image/jpeg,image/png"
+                    >
+                      <Button
+                        colorScheme="blue"
+                        leftIcon={<RiUpload2Line />}
+                      >
+                        {selectedFile?.length ? 'Zmień zdjęcie' : 'Dodaj zdjęcie'}
+                      </Button>
+                    </FileUploadInput>
+                    <FormHelperText>
+                      {errors.image?.message}
+                    </FormHelperText>
+                  </FormControl>
+                )
+              }
 
               <FormControl mt={3} isDisabled={!!selectedTask}>
                 <FormLabel>Tytuł osiągnięcia</FormLabel>
