@@ -62,6 +62,14 @@ export default function AuthView() {
                   password_input_placeholder: 'Twoje hasło',
                   email_input_placeholder: 'Twój email',
                 },
+                forgotten_password: {
+                  button_label: 'Wyślij instrukcje',
+                  loading_button_label: 'Wysyłanie...',
+                  password_label: 'Hasło',
+                  confirmation_text: 'Instrukcje zostały wysłane na Twój adres email.',
+                  email_label: 'Email',
+                  email_input_placeholder: 'Twój email',
+                },
               },
             }}
           />

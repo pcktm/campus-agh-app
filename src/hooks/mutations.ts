@@ -220,3 +220,33 @@ export function useAddTaskSolve() {
     },
   });
 }
+
+export function usePasswordChange() {
+  const client = useSupabase();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: async (newPassword: string) => {
+      const {data, error} = await client.auth.updateUser({
+        password: newPassword,
+      });
+      if (error) {
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Hasło zmienione',
+        status: 'success',
+      });
+    },
+    onError: (error: {message?: string}) => {
+      console.error(error);
+      toast({
+        title: 'Błąd podczas zmiany hasła',
+        status: 'error',
+        description: error.message ?? 'Podbij do Jakuba K. bo się coś zjebało elegencko xd',
+      });
+    },
+  });
+}

@@ -11,6 +11,7 @@ import MotdDisplay from '../components/MotdDisplay.tsx';
 import PointsDisplay from '../components/PointsStatDisplay.tsx';
 import {useIsAdmin, useProfileById, useUser} from '../hooks/queries.ts';
 import {useSupabase} from '../hooks/useSupabase.ts';
+import UpdatePasswordModal from '../components/UpdatePasswordModal.tsx';
 
 export default function IndexView() {
   const {data: user} = useUser();
@@ -87,16 +88,21 @@ export default function IndexView() {
       </Box>
 
       <Stack mt={6} spacing={0} align="center" justifyContent="center">
-        <Button
-          variant="link"
-          size="xs"
-          onClick={() => {
-            supabase.auth.signOut();
-          }}
-          mb={2}
-        >
-          Wyloguj się
-        </Button>
+        <Stack direction="row-reverse" spacing={4} align="center" justifyContent="center" mb={2}>
+          <Box>
+            <Button
+              variant="link"
+              size="xs"
+              my={0}
+              onClick={() => {
+                supabase.auth.signOut();
+              }}
+            >
+              Wyloguj się
+            </Button>
+          </Box>
+          <UpdatePasswordModal />
+        </Stack>
         <Text fontSize="2xs" color="gray.400" textAlign="center">
           {user?.id}
         </Text>

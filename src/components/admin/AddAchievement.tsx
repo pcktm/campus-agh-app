@@ -1,20 +1,25 @@
 import {
-  Box, Button, FormControl, FormLabel,
+  Box, Button,
+  ButtonGroup,
+  FormControl,
+  FormHelperText,
+  FormLabel,
   Input,
   Modal, ModalBody, ModalCloseButton, ModalContent,
-  ModalFooter, ModalHeader, ModalOverlay, NumberInput, NumberInputField, Radio, RadioGroup, Select as ChakraSelect, Stack, useToast, FormHelperText, ButtonGroup,
+  ModalFooter, ModalHeader, ModalOverlay, NumberInput, NumberInputField, Radio, RadioGroup,
+  Stack, useToast,
 } from '@chakra-ui/react';
 import {useEffect, useMemo, useState} from 'react';
-import {useForm, SubmitHandler} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {RiUpload2Line} from 'react-icons/ri';
-import {useAddPoints, useAddEvent, useAddTaskSolve} from '../../hooks/mutations.ts';
+import {useAddEvent, useAddPoints, useAddTaskSolve} from '../../hooks/mutations.ts';
 import {
   useAchievableTasks, useHasSubjectSolvedTask, useProfiles, useTeams,
 } from '../../hooks/queries.ts';
-import ProfileSelect from './ProfileSelect.tsx';
-import TeamSelect from './TeamSelect.tsx';
-import TaskSelect from './TaskSelect.tsx';
 import FileUploadInput from '../FileInput.tsx';
+import ProfileSelect from './ProfileSelect.tsx';
+import TaskSelect from './TaskSelect.tsx';
+import TeamSelect from './TeamSelect.tsx';
 
 type Inputs = {
   selectedType: 'personal' | 'team';
