@@ -7,16 +7,17 @@ type Props = {
   accept?: string;
   multiple?: boolean;
   children?: ReactNode;
+  isDisabled?: boolean;
 }
 
 export default function FileUploadInput({
-  register, accept, multiple, children,
+  register, accept, multiple, children, isDisabled,
 }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const {ref, ...rest} = register;
 
   const handleClick = () => {
-    inputRef.current?.click();
+    if (!isDisabled) inputRef.current?.click();
   };
 
   return (
@@ -30,6 +31,7 @@ export default function FileUploadInput({
         accept={accept}
         multiple={multiple}
         hidden
+        disabled={isDisabled}
         {...rest}
       />
       {children}
@@ -40,5 +42,6 @@ export default function FileUploadInput({
 FileUploadInput.defaultProps = {
   accept: undefined,
   multiple: false,
+  isDisabled: false,
   children: undefined,
 };

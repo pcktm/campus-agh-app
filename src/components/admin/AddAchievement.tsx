@@ -2,13 +2,15 @@ import {
   Box, Button, FormControl, FormLabel,
   Input,
   Modal, ModalBody, ModalCloseButton, ModalContent,
-  ModalFooter, ModalHeader, ModalOverlay, NumberInput, NumberInputField, Radio, RadioGroup, Select as ChakraSelect, Stack, useToast, FormHelperText,
+  ModalFooter, ModalHeader, ModalOverlay, NumberInput, NumberInputField, Radio, RadioGroup, Select as ChakraSelect, Stack, useToast, FormHelperText, ButtonGroup,
 } from '@chakra-ui/react';
 import {useEffect, useMemo, useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {RiUpload2Line} from 'react-icons/ri';
 import {useAddPoints, useAddEvent, useAddTaskSolve} from '../../hooks/mutations.ts';
-import {useAchievableTasks, useProfiles, useTeams} from '../../hooks/queries.ts';
+import {
+  useAchievableTasks, useHasSubjectSolvedTask, useProfiles, useTeams,
+} from '../../hooks/queries.ts';
 import ProfileSelect from './ProfileSelect.tsx';
 import TeamSelect from './TeamSelect.tsx';
 import TaskSelect from './TaskSelect.tsx';
@@ -46,8 +48,11 @@ export default function AddAchievementModal() {
     },
   });
   const selectedType = watch('selectedType');
+  const selectedSubject = watch('selectedSubject');
   const selectedTask = watch('selectedTask');
   const selectedFile = watch('image');
+
+  const {data: hasSubjectSolvedTask, isLoading: isDuplicateCheckLoading} = useHasSubjectSolvedTask(selectedType, selectedSubject, selectedTask);
 
   useEffect(() => {
     if (selectedTask && tasks) {
@@ -167,37 +172,38 @@ export default function AddAchievementModal() {
                 <TaskSelect type={selectedType} onSelect={(id) => setValue('selectedTask', id)} />
               </Box>
 
-              {
-                selectedTask && (
-                  <FormControl mt={3} isInvalid={!!errors.image}>
-                    <FormLabel>Zdjęcie wykonanego zadania</FormLabel>
-                    <FileUploadInput
-                      register={register('image', {
-                        validate: (value: FileList) => {
-                          for (const file of Array.from(value)) {
-                            // it must not be larger than 5mb
-                            if (file.size > 5 * 1024 * 1024) {
-                              return 'Zdjęcie nie może być większe niż 5MB';
-                            }
-                          }
-                          return true;
-                        },
-                      })}
-                      accept="image/jpeg,image/png"
-                    >
-                      <Button
-                        colorScheme="blue"
-                        leftIcon={<RiUpload2Line />}
-                      >
-                        {selectedFile?.length ? 'Zmień zdjęcie' : 'Dodaj zdjęcie'}
-                      </Button>
-                    </FileUploadInput>
-                    <FormHelperText>
-                      {errors.image?.message}
-                    </FormHelperText>
-                  </FormControl>
-                )
-              }
+              <FormControl mt={3} isInvalid={!!errors.image} isDisabled={!selectedTask}>
+                <FormLabel>Zdjęcie wykonanego zadania</FormLabel>
+                <FileUploadInput
+                  register={register('image', {
+                    validate: (value: FileList) => {
+                      if (!value) {
+                        return true;
+                      }
+                      for (const file of Array.from(value)) {
+                        // it must not be larger than 5mb
+                        if (file.size > 5 * 1024 * 1024) {
+                          return 'Zdjęcie nie może być większe niż 5MB';
+                        }
+                      }
+                      return true;
+                    },
+                  })}
+                  accept="image/jpeg,image/png"
+                  isDisabled={!selectedTask}
+                >
+                  <Button
+                    colorScheme="blue"
+                    leftIcon={<RiUpload2Line />}
+                    isDisabled={!selectedTask}
+                  >
+                    {selectedFile?.length ? 'Zmień zdjęcie' : 'Dodaj zdjęcie'}
+                  </Button>
+                </FileUploadInput>
+                <FormHelperText>
+                  {errors.image?.message}
+                </FormHelperText>
+              </FormControl>
 
               <FormControl mt={3} isDisabled={!!selectedTask}>
                 <FormLabel>Tytuł osiągnięcia</FormLabel>
@@ -212,15 +218,33 @@ export default function AddAchievementModal() {
               </FormControl>
             </ModalBody>
 
-            <ModalFooter>
-              <Button variant="ghost" mr={3} onClick={handleClose}>Anuluj</Button>
-              <Button
-                colorScheme="green"
-                type="submit"
-                isLoading={isSubmitting}
-              >
-                Dodaj
-              </Button>
+            <ModalFooter justifyContent="end">
+              <Stack flex={1} direction="row" alignItems="center">
+                {
+                !!selectedTask && !!hasSubjectSolvedTask && (
+                  <Box color="red.500" mr={3}>
+                    Wybrany
+                    {' '}
+                    {
+                      selectedType === 'personal' ? 'uczestnik' : 'zespół'
+                    }
+                    {' '}
+                    już rozwiązał to zadanie
+                  </Box>
+                )
+              }
+                <ButtonGroup justifyContent="end" flex={1}>
+                  <Button variant="ghost" mr={3} onClick={handleClose}>Anuluj</Button>
+                  <Button
+                    colorScheme="green"
+                    type="submit"
+                    isLoading={isSubmitting}
+                    isDisabled={!!selectedTask && !!hasSubjectSolvedTask}
+                  >
+                    Dodaj
+                  </Button>
+                </ButtonGroup>
+              </Stack>
             </ModalFooter>
           </form>
         </ModalContent>

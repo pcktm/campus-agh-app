@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {useCombobox} from 'downshift';
 import {
-  Button, Input, ListItem, Stack, UnorderedList, Text, FormLabel, Box, IconButton, FormControl, InputGroup, InputRightElement,
+  Button, Input, ListItem, Stack, UnorderedList, Text, FormLabel, Box, IconButton, FormControl, InputGroup, InputRightElement, useBreakpointValue,
 } from '@chakra-ui/react';
 import {RiArrowDownLine, RiArrowUpLine, RiCloseLine} from 'react-icons/ri';
 
@@ -24,6 +24,8 @@ export default function RichSelect({
   items: inputItems, label, onSelect, placeholder,
 }: Props) {
   const [items, setItems] = useState(inputItems);
+  const maxItems = useBreakpointValue({base: 3, md: 3}, {ssr: false});
+
   const {
     isOpen,
     getToggleButtonProps,
@@ -40,7 +42,7 @@ export default function RichSelect({
         setItems(inputItems);
         return;
       }
-      setItems(inputItems.filter(filterItems(inputValue)));
+      setItems(inputItems.filter(filterItems(inputValue)).slice(0, maxItems));
     },
     items,
     itemToString(item) {
@@ -72,26 +74,26 @@ export default function RichSelect({
               {...getInputProps()}
             />
             <InputRightElement width="3rem">
+
               <IconButton
                 h="1.75rem"
                 size="sm"
-                aria-label="clear input"
-                icon={<RiCloseLine />}
-                onClick={() => {
-                  reset();
-                  onSelect(null);
-                }}
+                aria-label="toggle menu"
+                type="button"
+                icon={
+                  !isOpen ? <RiArrowDownLine /> : <RiArrowUpLine />
+                }
+                {...getToggleButtonProps()}
               />
             </InputRightElement>
           </InputGroup>
-
           <IconButton
-            aria-label="toggle menu"
-            type="button"
-            icon={
-              !isOpen ? <RiArrowDownLine /> : <RiArrowUpLine />
-            }
-            {...getToggleButtonProps()}
+            aria-label="clear input"
+            icon={<RiCloseLine />}
+            onClick={() => {
+              reset();
+              onSelect(null);
+            }}
           />
         </FormControl>
       </Stack>

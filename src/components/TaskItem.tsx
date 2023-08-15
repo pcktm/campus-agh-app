@@ -48,21 +48,25 @@ export default function TaskItem({task}: {task: AchievableTask}) {
             </Center>
           </Box>
         </Stack>
-        <CardFooter mt={0} pt={0}>
-          <Suspense fallback={(
-            <Skeleton isLoaded={false}>
-              <Text>Wczytywanie...</Text>
-            </Skeleton>
+        {
+          task?.task_solves.filter((t) => !!t.imageUrl)?.length > 0 && (
+          <CardFooter mt={0} pt={0}>
+            <Suspense fallback={(
+              <Skeleton isLoaded={false}>
+                <Text>Wczytywanie...</Text>
+              </Skeleton>
           )}
-          >
-            <ImageGallery
-              buttonText="Zobacz rozwiązania"
-              images={task.task_solves.filter(({imageUrl}) => !!imageUrl).map((t) => ({
-                id: t.id, url: t.imageUrl as string,
-              })) ?? []}
-            />
-          </Suspense>
-        </CardFooter>
+            >
+              <ImageGallery
+                buttonText="Galeria"
+                images={task.task_solves.filter(({imageUrl}) => !!imageUrl).map((t) => ({
+                  id: t.id, url: t.imageUrl as string,
+                })) ?? []}
+              />
+            </Suspense>
+          </CardFooter>
+          )
+        }
       </Card>
     </Box>
   );

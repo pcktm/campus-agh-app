@@ -150,26 +150,47 @@ export type TAddTaskSolveMutationInput = {
   image?: File;
 }
 
+export function useUploadImage() {
+  const supabase = useSupabase();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: async (image: File) => {
+      const {data, error} = await supabase.storage.from('solves')
+        .upload(`${nanoid()}${image.name ?? '.jpg'}`, image);
+      if (error) {
+        throw error;
+      }
+      const {data: signedUrlResponse} = await supabase.storage.from('solves').createSignedUrl(data.path, 60 * 60 * 24 * 365);
+      return signedUrlResponse?.signedUrl ?? null;
+    },
+    onError: (error: {message?: string}) => {
+      console.error(error);
+      toast({
+        title: 'Błąd podczas wrzucania zdjęcia',
+        status: 'error',
+        description: error?.message ?? 'Check console',
+      });
+    },
+    onSuccess: (_, v) => {
+      toast({
+        title: 'Zdjęcie wrzucone',
+        status: 'success',
+      });
+    },
+  });
+}
+
 export function useAddTaskSolve() {
   const supabase = useSupabase();
   const toast = useToast();
+  const uploadImage = useUploadImage();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (newSolve: TAddTaskSolveMutationInput) => {
-      let imagePath: string | null = null;
-      if (newSolve.image) {
-        const {data, error} = await supabase.storage.from('solves')
-          .upload(`${newSolve.taskId}/${nanoid()}${newSolve.image?.name ?? '.jpg'}`, newSolve.image);
-        if (error) {
-          throw error;
-        }
-        const {data: signedUrlResponse} = await supabase.storage.from('solves').createSignedUrl(data.path, 60 * 60 * 24 * 365);
-        toast({title: 'Zdjęcie wrzucone', status: 'success'});
-        imagePath = signedUrlResponse?.signedUrl ?? null;
-        console.log(imagePath);
-      }
-      const {data, error} = await supabase.from('task_solves')
+      const imagePath = newSolve.image ? await uploadImage.mutateAsync(newSolve.image) : null;
+      await supabase.from('task_solves')
         .insert({
           // @ts-expect-error - Yeah, there's something wrong with either supabase or typescript and I don't care
           profileId: newSolve.type === 'personal' ? newSolve.subjectId : null,
@@ -183,9 +204,18 @@ export function useAddTaskSolve() {
     onError: (error: {message?: string}) => {
       console.error(error);
       toast({
-        title: 'Błąd podczas wrzucania zdjęcia',
+        title: 'Nie dodano rozwiązania',
         status: 'error',
         description: error?.message ?? 'Check console',
+      });
+    },
+    onSuccess: (_, v) => {
+      toast({
+        title: 'Rozwiązanie zadania dodane',
+        status: 'success',
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['task_solves'],
       });
     },
   });

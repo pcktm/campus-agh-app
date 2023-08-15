@@ -7,6 +7,7 @@ import 'yet-another-react-lightbox/plugins/counter.css';
 
 import Lightbox from 'yet-another-react-lightbox';
 import Counter from 'yet-another-react-lightbox/plugins/counter';
+import {RiGalleryFill} from 'react-icons/ri';
 
 type Props = {
   buttonText: string;
@@ -30,7 +31,13 @@ export default function ImageGallery({images, buttonText}: Props) {
           alt: `${img.id}`,
         }))}
       />
-      <Button variant="link" colorScheme="blue" isDisabled={images.length === 0} onClick={() => setOpen(true)}>
+      <Button
+        variant="link"
+        colorScheme="blue"
+        isDisabled={images.length === 0}
+        onClick={() => setOpen(true)}
+        leftIcon={<RiGalleryFill />}
+      >
         {buttonText}
       </Button>
     </Box>

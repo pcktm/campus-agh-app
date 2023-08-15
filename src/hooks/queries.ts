@@ -202,3 +202,22 @@ export function useTaskSolves(taskId: string) {
 
 export type AchievableTask = NonNullable<ReturnType<typeof useAchievableTasks>['data']>[number];
 export type TaskSolve = NonNullable<ReturnType<typeof useTaskSolves>['data']>[number];
+
+export function useHasSubjectSolvedTask(type: 'personal' | 'team', subjectId: string | null, taskId: string | null) {
+  const client = useSupabase();
+  const key = ['task_solves', taskId, type, subjectId];
+  return useQuery(key, async () => {
+    const q = client.from('task_solves').select('id, created_at').eq('taskId', taskId);
+    if (type === 'personal') {
+      q.eq('profileId', subjectId);
+    } else {
+      q.eq('teamId', subjectId);
+    }
+    const {data} = await q.maybeSingle().throwOnError();
+
+    return data;
+  }, {
+    enabled: !!subjectId && !!taskId,
+    refetchOnWindowFocus: false,
+  });
+}

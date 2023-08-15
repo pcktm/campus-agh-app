@@ -21,8 +21,8 @@ export default function TaskSelect({onSelect, type}: {onSelect: (id: string | nu
     <Box>
       <RichSelect
         items={tasksToSelect ?? []}
-        label="Zadanie"
-        placeholder="Wybierz zadanie"
+        label="Wybierz zadanie"
+        placeholder="Wybierz..."
         onSelect={(item) => {
           onSelect(item?.id ?? null);
         }}
