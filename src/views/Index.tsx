@@ -3,15 +3,16 @@ import {
   SimpleGrid, Skeleton, Stack, Text,
 } from '@chakra-ui/react';
 import {
-  RiBarChart2Line, RiCalendarTodoFill, RiListCheck3, RiShakeHandsLine,
+  RiBarChart2Line,
+  RiListCheck3, RiShakeHandsLine,
 } from 'react-icons/ri';
 import LatestEventsBox from '../components/LatestEventsBox.tsx';
 import LinkCard from '../components/LinkCard.tsx';
 import MotdDisplay from '../components/MotdDisplay.tsx';
 import PointsDisplay from '../components/PointsStatDisplay.tsx';
+import UpdatePasswordModal from '../components/UpdatePasswordModal.tsx';
 import {useIsAdmin, useProfileById, useUser} from '../hooks/queries.ts';
 import {useSupabase} from '../hooks/useSupabase.ts';
-import UpdatePasswordModal from '../components/UpdatePasswordModal.tsx';
 
 export default function IndexView() {
   const {data: user} = useUser();

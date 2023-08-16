@@ -245,6 +245,7 @@ export function usePasswordChange() {
       toast({
         title: 'Błąd podczas zmiany hasła',
         status: 'error',
+        position: 'top',
         description: error.message ?? 'Podbij do Jakuba K. bo się coś zjebało elegencko xd',
       });
     },

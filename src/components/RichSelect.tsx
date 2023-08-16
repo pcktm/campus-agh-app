@@ -1,8 +1,17 @@
-import {useState, useEffect} from 'react';
-import {useCombobox} from 'downshift';
 import {
-  Button, Input, ListItem, Stack, UnorderedList, Text, FormLabel, Box, IconButton, FormControl, InputGroup, InputRightElement, useBreakpointValue,
+  Box,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Input,
+  InputGroup, InputRightElement,
+  ListItem, Stack,
+  Text,
+  UnorderedList,
+  useBreakpointValue,
 } from '@chakra-ui/react';
+import {useCombobox} from 'downshift';
+import {useEffect, useState} from 'react';
 import {RiArrowDownLine, RiArrowUpLine, RiCloseLine} from 'react-icons/ri';
 
 export type RichSelectItem = {

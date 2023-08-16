@@ -1,5 +1,13 @@
 import {
-  Box, Button, ModalOverlay, useDisclosure, Modal, ModalContent, ModalCloseButton, ModalHeader, ModalBody, ModalFooter, FormControl, FormLabel, Input,
+  Box, Button,
+  FormControl, FormLabel, Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay, useDisclosure,
 } from '@chakra-ui/react';
 import React, {useState} from 'react';
 import {usePasswordChange} from '../hooks/mutations.ts';
@@ -20,7 +28,10 @@ export default function UpdatePasswordModal() {
         variant="link"
         my={0}
         size="xs"
-        onClick={onOpen}
+        onClick={() => {
+          onOpen();
+          setNewPassword('');
+        }}
       >
         Zmień hasło
       </Button>
@@ -38,6 +49,7 @@ export default function UpdatePasswordModal() {
                     type="password"
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Twoje nowe hasło"
+                    required
                   />
                 </FormControl>
               </Box>

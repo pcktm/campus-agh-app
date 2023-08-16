@@ -9,11 +9,11 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import {useSupabase} from './hooks/useSupabase.ts';
+import {MainLayout} from './layouts/MainLayout.tsx';
 import IndexView from './views/Index.tsx';
 import LeaderboardView from './views/Leaderboard.tsx';
 import PartnershipView from './views/Partnerships.tsx';
 import TaskListView from './views/Tasks.tsx';
-import {MainLayout} from './layouts/MainLayout.tsx';
 
 const AdminView = React.lazy(() => import('./views/Admin.tsx'));
 const AuthView = React.lazy(() => import('./views/Auth.tsx'));

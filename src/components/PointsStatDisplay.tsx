@@ -3,7 +3,9 @@ import {
 } from '@chakra-ui/react';
 import {useMemo} from 'react';
 import {
-  useProfiles, useProfileById, useTeams, useUser,
+  useProfileById,
+  useProfiles,
+  useTeams, useUser,
 } from '../hooks/queries.ts';
 
 export default function PointsStatDisplay() {

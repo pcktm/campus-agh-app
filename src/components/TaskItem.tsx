@@ -1,5 +1,9 @@
 import {
-  Box, Button, Card, CardBody, CardFooter, Center, Heading, Stack, Text, Badge, Skeleton,
+  Badge,
+  Box,
+  Card, CardBody, CardFooter, Center, Heading,
+  Skeleton,
+  Stack, Text,
 } from '@chakra-ui/react';
 import {polishPlurals} from 'polish-plurals';
 import React, {Suspense} from 'react';
@@ -30,7 +34,7 @@ export default function TaskItem({task}: {task: AchievableTask}) {
               {/* <Badge colorScheme={task.is_personal ? 'teal' : 'blue'}>
                 {task.is_personal ? 'Indywidualne' : 'Drużynowe'}
               </Badge> */}
-              <Badge colorScheme="pink">
+              <Badge colorScheme="teal">
                 {`${task.task_solves.length} ${polishPlurals('rozwiązanie', 'rozwiązania', 'rozwiązań', task.task_solves.length)}`}
               </Badge>
             </Stack>

@@ -4,9 +4,9 @@ import {
   Modal, ModalBody, ModalCloseButton, ModalContent,
   ModalFooter, ModalHeader, ModalOverlay,
 } from '@chakra-ui/react';
-import {useEffect, useState, useMemo} from 'react';
-import {SubmitHandler, useForm} from 'react-hook-form';
 import {useQueryClient} from '@tanstack/react-query';
+import {useEffect, useState} from 'react';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {useUpdateMotd} from '../../hooks/mutations.ts';
 import {useMotd} from '../../hooks/queries.ts';
 

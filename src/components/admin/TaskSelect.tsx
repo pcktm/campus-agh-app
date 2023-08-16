@@ -1,5 +1,5 @@
-import {useMemo, useState} from 'react';
-import {Box, Heading} from '@chakra-ui/react';
+import {Box} from '@chakra-ui/react';
+import {useMemo} from 'react';
 import {useAchievableTasks} from '../../hooks/queries.ts';
 import RichSelect from '../RichSelect.tsx';
 

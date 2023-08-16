@@ -1,9 +1,10 @@
 import {
-  Box, Image, Center, Heading, Skeleton, LinkOverlay,
+  Box,
+  Center,
+  Image,
 } from '@chakra-ui/react';
-import {useLocation, Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import logo from '../assets/logo.svg';
-import {useUser, useProfileById} from '../hooks/queries.ts';
 
 export default function Hero() {
   const {pathname} = useLocation();

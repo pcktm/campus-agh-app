@@ -1,13 +1,13 @@
 /* eslint-disable import/no-unresolved */
-import React, {Suspense, useState} from 'react';
-import {Box, Button, Skeleton} from '@chakra-ui/react';
+import {Box, Button} from '@chakra-ui/react';
+import {useState} from 'react';
 
-import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/counter.css';
+import 'yet-another-react-lightbox/styles.css';
 
+import {RiGalleryFill} from 'react-icons/ri';
 import Lightbox from 'yet-another-react-lightbox';
 import Counter from 'yet-another-react-lightbox/plugins/counter';
-import {RiGalleryFill} from 'react-icons/ri';
 
 type Props = {
   buttonText: string;

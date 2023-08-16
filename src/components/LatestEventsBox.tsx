@@ -4,12 +4,12 @@ import {
 } from '@chakra-ui/react';
 import {formatDistanceToNow} from 'date-fns';
 import {pl} from 'date-fns/locale';
+import React from 'react';
 import {
   RiAwardFill, RiNotification2Line, RiSkullLine, RiTrophyFill,
 } from 'react-icons/ri';
-import React from 'react';
-import type {EventType} from '../types.d.ts';
 import {useLatestEvents} from '../hooks/queries.ts';
+import type {EventType} from '../types.d.ts';
 
 const iconMap: Record<EventType, React.ElementType> = {
   blackout: RiSkullLine,

@@ -1,10 +1,11 @@
 import {
   Center,
-  Container, Heading, Skeleton, Spinner, Stack, Tab, TabList, TabPanel, TabPanels, Tabs,
+  Container, Heading,
+  Spinner, Stack, Tab, TabList, TabPanel, TabPanels, Tabs,
 } from '@chakra-ui/react';
 import {ScrollRestoration} from 'react-router-dom';
-import {useAchievableTasks} from '../hooks/queries.ts';
 import TaskItem from '../components/TaskItem.tsx';
+import {useAchievableTasks} from '../hooks/queries.ts';
 
 export default function TaskListView() {
   const {data: tasks, isLoading: tasksLoading} = useAchievableTasks();

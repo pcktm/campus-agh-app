@@ -1,6 +1,6 @@
-import type {UseFormRegisterReturn} from 'react-hook-form';
-import {useRef, type ReactNode} from 'react';
 import {InputGroup} from '@chakra-ui/react';
+import {useRef, type ReactNode} from 'react';
+import type {UseFormRegisterReturn} from 'react-hook-form';
 
 type Props = {
   register: UseFormRegisterReturn;
