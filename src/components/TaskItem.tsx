@@ -6,13 +6,35 @@ import {
   Stack, Text,
 } from '@chakra-ui/react';
 import {polishPlurals} from 'polish-plurals';
-import React, {Suspense} from 'react';
-import {AchievableTask, useIsAdmin} from '../hooks/queries.ts';
+import React, {Suspense, useMemo} from 'react';
+import {formatRelative} from 'date-fns/esm';
+import {pl} from 'date-fns/esm/locale';
+import {AchievableTask, useTaskSolves} from '../hooks/queries.ts';
+import type {GalleryImage} from './ImageGallery.tsx';
 
 const ImageGallery = React.lazy(() => import('./ImageGallery.tsx'));
 
 export default function TaskItem({task}: {task: AchievableTask}) {
-  const isAdmin = useIsAdmin();
+  const {data: solutions, isLoading} = useTaskSolves(task.id, task.task_solves.length > 0);
+
+  const mappedSolutions = useMemo<GalleryImage[]>(() => {
+    const filtered = solutions?.filter((s) => !!s.imageUrl);
+    if (!filtered) {
+      return [];
+    }
+    return filtered.map((s) => {
+      const sub = task.is_personal ? `${s.profiles?.firstName} ${s.profiles?.lastName}` : s.teams?.name;
+      return {
+        id: s.id,
+        url: s.imageUrl as string,
+        description: `${sub}
+        ${formatRelative(new Date(s.created_at), new Date(), {locale: pl})}`,
+      };
+    });
+  }, [solutions, task]);
+
+  console.log(task, solutions);
+
   let bgColor: string;
   if (task.points >= 35) {
     bgColor = 'yellow.300';
@@ -31,9 +53,6 @@ export default function TaskItem({task}: {task: AchievableTask}) {
         <Stack direction="row" spacing={4} align="center">
           <CardBody>
             <Stack gap={2} direction="row" mb={2}>
-              {/* <Badge colorScheme={task.is_personal ? 'teal' : 'blue'}>
-                {task.is_personal ? 'Indywidualne' : 'Drużynowe'}
-              </Badge> */}
               <Badge colorScheme="teal">
                 {`${task.task_solves.length} ${polishPlurals('rozwiązanie', 'rozwiązania', 'rozwiązań', task.task_solves.length)}`}
               </Badge>
@@ -55,19 +74,17 @@ export default function TaskItem({task}: {task: AchievableTask}) {
         {
           task?.task_solves.filter((t) => !!t.imageUrl)?.length > 0 && (
           <CardFooter mt={0} pt={0}>
-            <Suspense fallback={(
-              <Skeleton isLoaded={false}>
+            <Skeleton isLoaded={!isLoading}>
+              <Suspense fallback={(
                 <Text>Wczytywanie...</Text>
-              </Skeleton>
-          )}
-            >
-              <ImageGallery
-                buttonText="Galeria"
-                images={task.task_solves.filter(({imageUrl}) => !!imageUrl).map((t) => ({
-                  id: t.id, url: t.imageUrl as string,
-                })) ?? []}
-              />
-            </Suspense>
+              )}
+              >
+                <ImageGallery
+                  buttonText="Galeria"
+                  images={mappedSolutions}
+                />
+              </Suspense>
+            </Skeleton>
           </CardFooter>
           )
         }

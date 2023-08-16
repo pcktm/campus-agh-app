@@ -2,8 +2,8 @@ import {
   Box,
   Icon, List, ListItem, Skeleton, Stack, Text,
 } from '@chakra-ui/react';
-import {formatDistanceToNow} from 'date-fns';
-import {pl} from 'date-fns/locale';
+import {formatDistanceToNowStrict} from 'date-fns/esm';
+import {pl} from 'date-fns/esm/locale';
 import React from 'react';
 import {
   RiAwardFill, RiNotification2Line, RiSkullLine, RiTrophyFill,
@@ -35,7 +35,7 @@ export default function LatestEventsBox() {
                       />
                       <Stack spacing={0}>
                         <Text fontSize="sm" color="gray.600">
-                          {formatDistanceToNow(new Date(a.created_at), {addSuffix: true, locale: pl})}
+                          {formatDistanceToNowStrict(new Date(a.created_at), {addSuffix: true, locale: pl})}
                         </Text>
                         <Text>
                           {a.content}

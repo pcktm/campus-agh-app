@@ -174,7 +174,7 @@ export function useAchievableTasks() {
   );
 }
 
-export function useTaskSolves(taskId: string) {
+export function useTaskSolves(taskId: number, enabled = true) {
   const client = useSupabase();
   const key = ['task_solves', taskId];
 
@@ -188,7 +188,7 @@ export function useTaskSolves(taskId: string) {
         ), teams (
           id, name
         )`)
-        .eq('id', taskId)
+        .eq('taskId', taskId)
         .order('created_at', {ascending: false})
         .throwOnError();
 
@@ -196,6 +196,7 @@ export function useTaskSolves(taskId: string) {
     },
     {
       refetchOnWindowFocus: false,
+      enabled,
     },
   );
 }
