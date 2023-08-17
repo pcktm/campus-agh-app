@@ -50,7 +50,7 @@ export default function LatestEventsBox() {
       }
       {
         (!events || events?.length === 0) && (
-          <Box minH="100px" display="flex" alignItems="center" justifyContent="center" bg="gray.700" borderRadius="md">
+          <Box minH="200px" display="flex" alignItems="center" justifyContent="center" bg="gray.700" borderRadius="md">
             <Stack spacing={2} textAlign="center" direction="column" alignItems="center">
               <Icon as={RiAwardFill} fontSize="2xl" color="white" />
               <Text color="white" textAlign="center">

@@ -45,7 +45,7 @@ export default function PointsStatDisplay() {
       <StatGroup>
         <Stat>
           <StatLabel>Twoje punkty</StatLabel>
-          <Skeleton isLoaded={!personalLoading && pointsByUser !== undefined}>
+          <Skeleton isLoaded={!personalLoading && pointsByUser !== undefined} mt={personalLoading ? 1 : 0}>
             <StatNumber>{personalPoints ?? 0}</StatNumber>
             <StatHelpText>
               {
@@ -63,7 +63,7 @@ export default function PointsStatDisplay() {
 
         <Stat textAlign="end">
           <StatLabel>Drużynowe punkty</StatLabel>
-          <Skeleton isLoaded={!teamLoading && pointsByTeam !== undefined}>
+          <Skeleton isLoaded={!teamLoading && pointsByTeam !== undefined} mt={teamLoading ? 1 : 0}>
             <StatNumber>{teamPoints ?? 0}</StatNumber>
             <StatHelpText>
               {
