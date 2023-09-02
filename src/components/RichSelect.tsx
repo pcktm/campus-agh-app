@@ -72,38 +72,40 @@ export default function RichSelect({
   return (
     <Box>
       <Stack direction="column" gap={0}>
-        <FormLabel {...getLabelProps()}>
-          {label}
-        </FormLabel>
-        <FormControl as={Stack} gap={0.5} direction="row" align="center">
-          <InputGroup>
-            <Input
-              pr="4.5rem"
-              placeholder={placeholder}
-              {...getInputProps()}
-            />
-            <InputRightElement width="3rem">
+        <FormControl>
+          <FormLabel {...getLabelProps()}>
+            {label}
+          </FormLabel>
+          <Stack gap={0.5} direction="row" align="center">
+            <InputGroup>
+              <Input
+                pr="4.5rem"
+                placeholder={placeholder}
+                {...getInputProps()}
+              />
+              <InputRightElement width="3rem">
 
-              <IconButton
-                h="1.75rem"
-                size="sm"
-                aria-label="toggle menu"
-                type="button"
-                icon={
+                <IconButton
+                  h="1.75rem"
+                  size="sm"
+                  aria-label="toggle menu"
+                  type="button"
+                  icon={
                   !isOpen ? <RiArrowDownLine /> : <RiArrowUpLine />
                 }
-                {...getToggleButtonProps()}
-              />
-            </InputRightElement>
-          </InputGroup>
-          <IconButton
-            aria-label="clear input"
-            icon={<RiCloseLine />}
-            onClick={() => {
-              reset();
-              onSelect(null);
-            }}
-          />
+                  {...getToggleButtonProps()}
+                />
+              </InputRightElement>
+            </InputGroup>
+            <IconButton
+              aria-label="clear input"
+              icon={<RiCloseLine />}
+              onClick={() => {
+                reset();
+                onSelect(null);
+              }}
+            />
+          </Stack>
         </FormControl>
       </Stack>
       <UnorderedList

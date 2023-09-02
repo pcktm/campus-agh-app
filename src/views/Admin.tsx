@@ -7,6 +7,7 @@ import {
 import AddAchievementModal from '../components/admin/AddAchievement.tsx';
 import AddBlackOutModal from '../components/admin/AddBlackOut.tsx';
 import UpdateMotdModal from '../components/admin/UpdateMotd.tsx';
+import AddBingoSolutionModal from '../components/admin/AddBingoSolve.tsx';
 
 export default function AdminView() {
   return (
@@ -34,6 +35,17 @@ export default function AdminView() {
           </WrapItem>
           <WrapItem>
             <AddBlackOutModal />
+          </WrapItem>
+        </Wrap>
+      </Box>
+
+      <Divider my={4} />
+
+      <Box>
+        <Heading as="h3" size="sm" mb={2}>Bingo</Heading>
+        <Wrap>
+          <WrapItem>
+            <AddBingoSolutionModal />
           </WrapItem>
         </Wrap>
       </Box>

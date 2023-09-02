@@ -251,3 +251,50 @@ export function usePasswordChange() {
     },
   });
 }
+
+type TAddBingoSolveMutationInput = {
+  taskId: string;
+  teamId: string;
+}
+
+export function useAddBingoTaskSolve() {
+  const client = useSupabase();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: async (newSolve: TAddBingoSolveMutationInput) => {
+      const existing = await client.from('bingo_solves')
+        .select('id')
+        .eq('taskId', newSolve.taskId)
+        .eq('teamId', newSolve.teamId)
+        .limit(1)
+        .maybeSingle()
+        .throwOnError();
+      console.log(existing.data);
+      if (existing.data) {
+        throw new Error('Team already solved this');
+      }
+      await client.from('bingo_solves')
+        .insert({
+          teamId: Number(newSolve.teamId),
+          taskId: Number(newSolve.taskId),
+        })
+        .single()
+        .throwOnError();
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Rozwiązanie zadania dodane',
+        status: 'success',
+      });
+    },
+    onError: (error: {message?: string}) => {
+      console.error(error);
+      toast({
+        title: 'Nie dodano rozwiązania',
+        status: 'error',
+        description: error?.message ?? 'Check console',
+      });
+    },
+  });
+}

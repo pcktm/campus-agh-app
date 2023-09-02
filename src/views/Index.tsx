@@ -12,7 +12,9 @@ import LinkCard from '../components/LinkCard.tsx';
 import MotdDisplay from '../components/MotdDisplay.tsx';
 import PointsDisplay from '../components/PointsStatDisplay.tsx';
 import UpdatePasswordModal from '../components/UpdatePasswordModal.tsx';
-import {useIsAdmin, useProfileById, useUser} from '../hooks/queries.ts';
+import {
+  useIsAdmin, useIsBingoShown, useProfileById, useUser,
+} from '../hooks/queries.ts';
 import {useSupabase} from '../hooks/useSupabase.ts';
 
 export default function IndexView() {
@@ -20,6 +22,7 @@ export default function IndexView() {
   const {data: profile, isLoading: isProfileLoading} = useProfileById(user?.id);
   const supabase = useSupabase();
   const isAdmin = useIsAdmin();
+  const isBingoShown = useIsBingoShown();
   return (
     <Container mb={3} maxW="container.md">
       <Center>
@@ -62,6 +65,16 @@ export default function IndexView() {
               />
             )
           }
+          {
+            isBingoShown && (
+            <LinkCard
+              title="Bingo"
+              description="Czyli jak dobrze znasz już AGH"
+              link="/bingo"
+              icon={<Icon as={RiCheckboxLine} color="brandRed.400" fontSize="xl" />}
+            />
+            )
+          }
           <LinkCard
             title="Ranking"
             description="Wyniki osobiste i drużynowe"
@@ -73,12 +86,6 @@ export default function IndexView() {
             description="Za to zdobędziesz punkty!"
             link="/tasks"
             icon={<Icon as={RiListCheck3} color="brandRed.400" fontSize="xl" />}
-          />
-          <LinkCard
-            title="Bingo"
-            description="Fifi daj jakiś opis tutaj xd"
-            link="/bingo"
-            icon={<Icon as={RiCheckboxLine} color="brandRed.400" fontSize="xl" />}
           />
           <LinkCard
             title="Partnerzy"

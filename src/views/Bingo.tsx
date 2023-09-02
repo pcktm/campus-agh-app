@@ -1,12 +1,15 @@
 import {
   Box, Container, GridItem, Grid, Spinner, Heading,
 } from '@chakra-ui/react';
-import {ScrollRestoration} from 'react-router-dom';
+import {ScrollRestoration, useNavigate} from 'react-router-dom';
+import {useEffect} from 'react';
 import BingoCard from '../components/BingoCard.tsx';
-import {useBingoTasks} from '../hooks/queries.ts';
+import {useBingoTasks, useIsBingoShown} from '../hooks/queries.ts';
 
 export default function BingoView() {
   const {data: tasks, isLoading} = useBingoTasks();
+  const isBingoShown = useIsBingoShown();
+
   return (
     <>
       <Container pt={4} maxW="container.md">
@@ -22,6 +25,8 @@ export default function BingoView() {
             </Box>
           )
         }
+        { !isLoading && isBingoShown
+        && (
         <Grid templateColumns="repeat(5, 1fr)" gap={2} templateRows="repeat(5, 1fr)">
           {
           tasks?.map((task) => (
@@ -32,7 +37,9 @@ export default function BingoView() {
             </GridItem>
           ))
         }
+
         </Grid>
+        )}
       </Container>
       <ScrollRestoration />
     </>

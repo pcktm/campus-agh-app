@@ -96,6 +96,11 @@ export function useMotd(): string | undefined {
   return data?.find((setting) => setting.name === 'motd')?.value;
 }
 
+export function useIsBingoShown(): boolean {
+  const {data} = useSettings();
+  return data?.find((setting) => setting.name === 'bingo_shown')?.value === 'true';
+}
+
 export function useIsAdmin() {
   const {data} = useUser();
   return data?.email?.endsWith('@samorzad.agh.edu.pl') ?? false;
@@ -237,6 +242,9 @@ export function useBingoTasks() {
         .throwOnError();
 
       return data;
+    },
+    {
+      refetchOnWindowFocus: import.meta.env.PROD,
     },
   );
 }
