@@ -12,8 +12,9 @@ export default function BingoCard({task}: {task: BingoTask}) {
     <Card
       w="100%"
       h="100%"
-      border={hasPlayerTeamSolvedThis ? '2px solid green' : 'none'}
-      borderColor={hasPlayerTeamSolvedThis ? 'green.500' : 'gray.500'}
+      outline={hasPlayerTeamSolvedThis ? '2px solid green' : '0px'}
+      outlineColor={hasPlayerTeamSolvedThis ? 'green.500' : 'gray.500'}
+      transition="all 0.2s linear"
     >
       <CardBody p={4}>
         <Tag size="sm" mb={2}>
