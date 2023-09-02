@@ -1,6 +1,7 @@
 import {
-  Card, Heading, CardBody, Text, CardFooter, Wrap, Box, WrapItem, Tooltip,
+  Card, Heading, CardBody, Text, CardFooter, Wrap, Box, WrapItem, Tooltip, Tag, TagLabel, TagRightIcon,
 } from '@chakra-ui/react';
+import {RiUserLocationLine} from 'react-icons/ri';
 import {BingoTask, useProfileById, useUser} from '../hooks/queries.ts';
 
 export default function BingoCard({task}: {task: BingoTask}) {
@@ -15,6 +16,10 @@ export default function BingoCard({task}: {task: BingoTask}) {
       borderColor={hasPlayerTeamSolvedThis ? 'green.500' : 'gray.500'}
     >
       <CardBody p={4}>
+        <Tag size="sm" mb={2}>
+          <TagLabel>{task.min_people}</TagLabel>
+          <TagRightIcon as={RiUserLocationLine} />
+        </Tag>
         <Heading as="h1" size="md" mb={1}>{task.title}</Heading>
         <Text fontSize="xs">
           {task.hint}

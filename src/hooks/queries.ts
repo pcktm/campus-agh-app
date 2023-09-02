@@ -232,7 +232,7 @@ export function useBingoTasks() {
     async () => {
       const {data} = await client
         .from('bingo_tasks')
-        .select('id,title,hint,bingo_solves(id, teams(color, id, name))')
+        .select('id,title,hint,min_people,bingo_solves(id, teams(color, id, name))')
         .order('ordinal', {ascending: true})
         .throwOnError();
 
