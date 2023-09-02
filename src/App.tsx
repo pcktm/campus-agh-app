@@ -14,6 +14,7 @@ import IndexView from './views/Index.tsx';
 import LeaderboardView from './views/Leaderboard.tsx';
 import PartnershipView from './views/Partnerships.tsx';
 import TaskListView from './views/Tasks.tsx';
+import BingoView from './views/Bingo.tsx';
 
 const AdminView = React.lazy(() => import('./views/Admin.tsx'));
 const AuthView = React.lazy(() => import('./views/Auth.tsx'));
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: '/tasks',
         element: <TaskListView />,
+      },
+      {
+        path: '/bingo',
+        element: <BingoView />,
       },
       {
         path: '/admin',

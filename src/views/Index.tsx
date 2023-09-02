@@ -4,6 +4,7 @@ import {
 } from '@chakra-ui/react';
 import {
   RiBarChart2Line,
+  RiCheckboxLine,
   RiListCheck3, RiShakeHandsLine,
 } from 'react-icons/ri';
 import LatestEventsBox from '../components/LatestEventsBox.tsx';
@@ -73,12 +74,12 @@ export default function IndexView() {
             link="/tasks"
             icon={<Icon as={RiListCheck3} color="brandRed.400" fontSize="xl" />}
           />
-          {/* <LinkCard
-            title="Harmonogram"
-            description="Sprawdź, co będzie się działo"
-            link="/schedule"
-            icon={<Icon as={RiCalendarTodoFill} color="brandRed.400" fontSize="xl" />}
-          /> */}
+          <LinkCard
+            title="Bingo"
+            description="Fifi daj jakiś opis tutaj xd"
+            link="/bingo"
+            icon={<Icon as={RiCheckboxLine} color="brandRed.400" fontSize="xl" />}
+          />
           <LinkCard
             title="Partnerzy"
             description="Zobacz, kto wspiera nasze przedsięwzięcie"

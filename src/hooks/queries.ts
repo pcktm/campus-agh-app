@@ -222,3 +222,23 @@ export function useHasSubjectSolvedTask(type: 'personal' | 'team', subjectId: st
     refetchOnWindowFocus: false,
   });
 }
+
+export function useBingoTasks() {
+  const client = useSupabase();
+  const key = ['bingo_tasks'];
+
+  return useQuery(
+    key,
+    async () => {
+      const {data} = await client
+        .from('bingo_tasks')
+        .select('id,title,hint,bingo_solves(id, teams(color, id, name))')
+        .order('ordinal', {ascending: true})
+        .throwOnError();
+
+      return data;
+    },
+  );
+}
+
+export type BingoTask = NonNullable<ReturnType<typeof useBingoTasks>['data']>[number];
