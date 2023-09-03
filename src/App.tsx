@@ -8,8 +8,6 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-// eslint-disable-next-line import/no-unresolved
-import {useRegisterSW} from 'virtual:pwa-register/react';
 import {useSupabase} from './hooks/useSupabase.ts';
 import {MainLayout} from './layouts/MainLayout.tsx';
 import IndexView from './views/Index.tsx';
@@ -73,18 +71,6 @@ function App() {
   const client = useSupabase();
   const [session, setSession] = useState<Session | null | false>(false);
   const queryClient = useQueryClient();
-
-  const intervalMS = 10 * 60 * 1000;
-
-  const updateServiceWorker = useRegisterSW({
-    onRegistered(r) {
-      if (r) {
-        setInterval(() => {
-          r.update();
-        }, intervalMS);
-      }
-    },
-  });
 
   useEffect(() => {
     client.auth.getSession().then(({data: {session: s}}) => {

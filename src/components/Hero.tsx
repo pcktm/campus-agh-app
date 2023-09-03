@@ -4,7 +4,6 @@ import {
   Image,
 } from '@chakra-ui/react';
 import {Link, useLocation} from 'react-router-dom';
-import logo from '../assets/logo.svg';
 
 export default function Hero() {
   const {pathname} = useLocation();
@@ -12,7 +11,7 @@ export default function Hero() {
     <Box>
       <Center flexDirection="column">
         <Link to="/">
-          <Image src={logo} alt="logo" height="175px" />
+          <Image src="/logo.svg" alt="logo" height="175px" />
         </Link>
       </Center>
     </Box>

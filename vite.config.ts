@@ -8,6 +8,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['logo.svg'],
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,png,svg,woff,woff2}'],
+      },
       manifest: {
         name: 'CampusApp',
         short_name: 'CampusApp',
