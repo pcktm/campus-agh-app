@@ -12,7 +12,10 @@ export default defineConfig({
         name: 'CampusApp',
         short_name: 'CampusApp',
         description: 'Apka obozu adaptacyjnego Campus AGH',
-        theme_color: '#ee2761',
+        theme_color: '#eff6f7',
+        lang: 'pl',
+        orientation: 'portrait',
+        background_color: '#fafaf9',
         icons: [
           {
             src: 'pwa-64x64.png',
