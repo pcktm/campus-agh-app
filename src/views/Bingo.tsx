@@ -17,7 +17,7 @@ export default function BingoView() {
           Bingo
         </Heading>
       </Container>
-      <Container overflow="scroll" maxW="container.xl" p={2}>
+      <Container overflow="scroll" maxW="container.xl" p={2} mb={3}>
         {
           isLoading && (
             <Box textAlign="center" py={5}>
