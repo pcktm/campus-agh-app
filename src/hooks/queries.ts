@@ -1,4 +1,4 @@
-import {useQuery} from '@tanstack/react-query';
+import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {useSupabase} from './useSupabase.ts';
 
 export function useProfileById(userId?: string) {
@@ -122,6 +122,38 @@ export function useLatestEvents(limit?: number) {
   }, {
     refetchOnWindowFocus: import.meta.env.PROD,
   });
+}
+
+export type Event = NonNullable<ReturnType<typeof useLatestEvents>['data']>[number];
+
+export function useLatestEventsInfinite({itemsPerPage = 10, enabled = true} = {}) {
+  const client = useSupabase();
+  const key = ['events_infinite', itemsPerPage];
+
+  return useInfiniteQuery(
+    key,
+    async ({pageParam = 0}) => {
+      const {data} = await client
+        .from('events')
+        .select('*')
+        .order('created_at', {ascending: false})
+        .range(pageParam, pageParam + itemsPerPage - 1)
+        .throwOnError();
+      return {
+        data, nextCursor: pageParam + itemsPerPage,
+      };
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (lastPage.data?.length === itemsPerPage) {
+          return lastPage.nextCursor;
+        }
+        return undefined;
+      },
+      enabled,
+      refetchOnWindowFocus: false,
+    },
+  );
 }
 
 export function useBlackouts() {

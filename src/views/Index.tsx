@@ -40,14 +40,6 @@ export default function IndexView() {
         <Box mt={4} />
         <MotdDisplay />
         <LatestEventsBox />
-        {/* <Stack direction="row" spacing={2} mt={3} alignContent="center" justifyContent="flex-end">
-          <Link as={RouterLink} to="/leaderboard" display="flex" alignItems="center" gap={1}>
-            <Text fontSize="sm">
-              Cały ranking
-            </Text>
-            <Icon as={RiArrowRightLine} color="brandRed.400" fontSize="xl" />
-          </Link>
-        </Stack> */}
       </Box>
 
       <Divider mt={4} borderColor="gray.400" />
@@ -69,7 +61,7 @@ export default function IndexView() {
             isBingoShown && (
             <LinkCard
               title="Bingo"
-              description="Czyli jak dobrze znasz już AGH"
+              description="Czyli jak dobrze znacie już AGH!"
               link="/bingo"
               icon={<Icon as={RiCheckboxLine} color="brandRed.400" fontSize="xl" />}
             />

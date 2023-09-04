@@ -109,7 +109,7 @@ export default function AddAchievementModal() {
     setIsSubmitting(true);
     if (data.selectedTask) {
       await addTaskSolve.mutateAsync({
-        image: data.image[0],
+        image: data.image?.[0],
         taskId: data.selectedTask,
         type: data.selectedType,
         subjectId: data.selectedSubject,
