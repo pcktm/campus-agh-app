@@ -3,6 +3,7 @@ import {useToast} from '@chakra-ui/react';
 import {nanoid} from 'nanoid';
 import {useSupabase} from './useSupabase.ts';
 import type {EventType} from '../types.d.ts';
+import {useUser} from './queries.ts';
 
 type TAddPointsMutationInput = {
   type: 'team' | 'personal';
@@ -294,6 +295,47 @@ export function useAddBingoTaskSolve() {
         title: 'Nie dodano rozwiązania',
         status: 'error',
         description: error?.message ?? 'Check console',
+      });
+    },
+  });
+}
+
+export function useAddEventReaction() {
+  const client = useSupabase();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (eventId: number) => {
+      await client.from('event_reactions')
+        .insert({
+          eventId,
+        })
+        .single()
+        .throwOnError();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['events'],
+      });
+    },
+  });
+}
+
+export function useDeleteEventReaction() {
+  const client = useSupabase();
+  const queryClient = useQueryClient();
+  const {data: me} = useUser();
+
+  return useMutation({
+    mutationFn: async (eventId: number) => {
+      await client.from('event_reactions')
+        .delete()
+        .eq('eventId', eventId)
+        .throwOnError();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['events'],
       });
     },
   });

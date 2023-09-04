@@ -20,8 +20,7 @@ type Inputs = {
 export default function AddBingoSolutionModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {data: tasks} = useBingoTasks();
-  const addEvent = useAddEvent();
+  const {data: tasks} = useBingoTasks({enabled: isOpen});
   const addBingoSolve = useAddBingoTaskSolve();
   const toast = useToast();
 

@@ -113,7 +113,7 @@ export function useLatestEvents(limit?: number) {
   return useQuery(key, async () => {
     const {data} = await client
       .from('events')
-      .select('*')
+      .select('*, event_reactions(id,user_id)')
       .order('created_at', {ascending: false})
       .limit(limit ?? 10)
       .throwOnError();
@@ -121,6 +121,7 @@ export function useLatestEvents(limit?: number) {
     return data;
   }, {
     refetchOnWindowFocus: import.meta.env.PROD,
+    refetchInterval: 10000,
   });
 }
 
@@ -128,14 +129,14 @@ export type Event = NonNullable<ReturnType<typeof useLatestEvents>['data']>[numb
 
 export function useLatestEventsInfinite({itemsPerPage = 10, enabled = true} = {}) {
   const client = useSupabase();
-  const key = ['events_infinite', itemsPerPage];
+  const key = ['events', 'infinite', itemsPerPage];
 
   return useInfiniteQuery(
     key,
     async ({pageParam = 0}) => {
       const {data} = await client
         .from('events')
-        .select('*')
+        .select('*, event_reactions(id,user_id)')
         .order('created_at', {ascending: false})
         .range(pageParam, pageParam + itemsPerPage - 1)
         .throwOnError();
@@ -151,7 +152,7 @@ export function useLatestEventsInfinite({itemsPerPage = 10, enabled = true} = {}
         return undefined;
       },
       enabled,
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
     },
   );
 }
@@ -260,7 +261,7 @@ export function useHasSubjectSolvedTask(type: 'personal' | 'team', subjectId: st
   });
 }
 
-export function useBingoTasks() {
+export function useBingoTasks({enabled = true} = {}) {
   const client = useSupabase();
   const key = ['bingo_tasks'];
 
@@ -277,6 +278,7 @@ export function useBingoTasks() {
     },
     {
       refetchOnWindowFocus: import.meta.env.PROD,
+      enabled,
     },
   );
 }

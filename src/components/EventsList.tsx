@@ -1,22 +1,57 @@
 import {
   Icon, Text,
   List, ListItem,
-  Stack,
+  Stack, Box, IconButton,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {formatDistanceToNowStrict, formatRelative} from 'date-fns';
 import {pl} from 'date-fns/locale';
 import {
+  RiHeartFill,
+  RiHeartLine,
   RiNotification2Line, RiSkullLine, RiTrophyFill,
 } from 'react-icons/ri';
-import {Event} from '../hooks/queries.ts';
+import {useQueryClient} from '@tanstack/react-query';
+import {Event, useUser} from '../hooks/queries.ts';
 import type {EventType} from '../types.d.ts';
+import {useAddEventReaction, useDeleteEventReaction} from '../hooks/mutations.ts';
 
 const iconMap: Record<EventType, React.ElementType> = {
   blackout: RiSkullLine,
   achievement: RiTrophyFill,
   generic: RiNotification2Line,
 } as const;
+
+function ReactionDisplay({reactions, eventId}: {reactions: Event['event_reactions'], eventId: number}) {
+  const postReaction = useAddEventReaction();
+  const deleteReaction = useDeleteEventReaction();
+  const {data: me} = useUser();
+  const heartAmount = useMemo(() => new Set(reactions?.map((r) => r.user_id)).size, [reactions]);
+  const hasUserLiked = useMemo(() => reactions?.some((r) => r.user_id === me?.id), [reactions, me]);
+
+  const handleClick = () => {
+    if (hasUserLiked) {
+      deleteReaction.mutate(eventId);
+    } else {
+      postReaction.mutate(eventId);
+    }
+  };
+  return (
+    <Stack direction="column" spacing={1} alignItems="center">
+      <IconButton
+        icon={<Icon fontSize="xl" as={hasUserLiked ? RiHeartFill : RiHeartLine} />}
+        color={heartAmount > 0 ? 'brandRed.500' : 'gray.400'}
+        size="xl"
+        variant="ghost"
+        aria-label="Polub"
+        onClick={handleClick}
+      />
+      <Text fontSize="sm" color="gray.600">
+        {heartAmount}
+      </Text>
+    </Stack>
+  );
+}
 
 export default function EventsList({
   events,
@@ -46,7 +81,7 @@ export default function EventsList({
               color="brandRed.400"
               fontSize="xl"
             />
-            <Stack spacing={0}>
+            <Stack spacing={0} flex={1}>
               <Text fontSize="sm" color="gray.600">
                 {
                   exactTime
@@ -58,6 +93,7 @@ export default function EventsList({
                 {a.content}
               </Text>
             </Stack>
+            <ReactionDisplay reactions={a.event_reactions} eventId={a.id} />
           </ListItem>
         ))
       }

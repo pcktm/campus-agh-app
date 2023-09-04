@@ -10,7 +10,7 @@ export default function LatestEventsModal() {
   const {isOpen, onOpen, onClose} = useDisclosure();
   const {
     data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage,
-  } = useLatestEventsInfinite({enabled: isOpen, itemsPerPage: 3});
+  } = useLatestEventsInfinite({enabled: isOpen, itemsPerPage: 10});
 
   const events = useMemo(() => {
     if (!data) return undefined;

@@ -122,6 +122,40 @@ export interface Database {
           }
         ]
       }
+      event_reactions: {
+        Row: {
+          created_at: string
+          eventId: number | null
+          id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          eventId?: number | null
+          id?: number
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          eventId?: number | null
+          id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'event_reactions_eventId_fkey'
+            columns: ['eventId']
+            referencedRelation: 'events'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'event_reactions_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          }
+        ]
+      }
       events: {
         Row: {
           content: string
