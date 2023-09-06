@@ -5,6 +5,7 @@ import {
 import {
   RiBarChart2Line,
   RiCheckboxLine,
+  RiGobletLine,
   RiListCheck3, RiShakeHandsLine,
 } from 'react-icons/ri';
 import LatestEventsBox from '../components/LatestEventsBox.tsx';
@@ -78,6 +79,12 @@ export default function IndexView() {
             description="Za to zdobędziesz punkty!"
             link="/tasks"
             icon={<Icon as={RiListCheck3} color="brandRed.400" fontSize="xl" />}
+          />
+          <LinkCard
+            title="Toasty"
+            description="Wypijmy za to, brachu!"
+            link="/toasts"
+            icon={<Icon as={RiGobletLine} color="brandRed.400" fontSize="xl" />}
           />
           <LinkCard
             title="Partnerzy"

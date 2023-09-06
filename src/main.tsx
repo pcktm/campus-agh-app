@@ -25,6 +25,10 @@ const themeConfig = {
       900: '#300813',
     },
   },
+  fonts: {
+    heading: '\'Lato Bold\', sans-serif',
+    body: '\'Lato\', sans-serif',
+  },
 };
 
 const theme = extendTheme(themeConfig);

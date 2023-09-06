@@ -18,6 +18,7 @@ import BingoView from './views/Bingo.tsx';
 
 const AdminView = React.lazy(() => import('./views/Admin.tsx'));
 const AuthView = React.lazy(() => import('./views/Auth.tsx'));
+const ToastView = React.lazy(() => import('./views/Toasts.tsx'));
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,22 @@ const router = createBrowserRouter([
       {
         path: '/bingo',
         element: <BingoView />,
+      },
+      {
+        path: '/toasts',
+        element: (
+          <Suspense
+            fallback={(
+              <Center py={10}>
+                <Stack spacing={4} align="center">
+                  <Spinner size="xl" color="brandRed.500" />
+                </Stack>
+              </Center>
+              )}
+          >
+            <ToastView />
+          </Suspense>
+        ),
       },
       {
         path: '/admin',
