@@ -2,6 +2,7 @@ import {
   Alert, AlertDescription, AlertIcon, AlertTitle, Box, Container,
 } from '@chakra-ui/react';
 import {Outlet} from 'react-router-dom';
+import {Provider} from 'react-wrap-balancer';
 import Hero from '../components/Hero.tsx';
 import useOnlineStatus from '../hooks/useOnlineStatus.ts';
 
@@ -25,7 +26,9 @@ export function MainLayout() {
           </Container>
         )
       }
-      <Outlet />
+      <Provider>
+        <Outlet />
+      </Provider>
     </>
   );
 }
