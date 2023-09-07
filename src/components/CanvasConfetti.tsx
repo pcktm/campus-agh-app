@@ -15,7 +15,7 @@ export function CanvasBackgroundConfetti({fire}: {fire: boolean}) {
     if (refAnimationInstance.current) {
       refAnimationInstance.current({
         ...opts,
-        origin: {y: 0.5},
+        origin: {y: 0.37},
         particleCount: Math.floor(200 * particleRatio),
       });
     }

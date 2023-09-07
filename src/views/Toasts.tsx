@@ -1,6 +1,6 @@
 import {useEffect, useState, useReducer} from 'react';
 import {
-  Box, Container, Heading, Center, Button, Text,
+  Box, Container, Heading, Center, Button, Text, Portal,
 } from '@chakra-ui/react';
 import {Balancer} from 'react-wrap-balancer';
 import toastsCollections from '../assets/toasts.json';
@@ -65,13 +65,31 @@ export default function ToastsView() {
   }, []);
 
   return (
-    <Container maxW="container.md" overflow="visible" mt={4} minH="70vh">
-      <CanvasBackgroundConfetti fire={fire} />
-      <Heading as="h1" size="md">
-        Toasty
-      </Heading>
+    <Container overflow="visible" mt={4}>
+      <Portal>
+        <Box
+          position="fixed"
+          top={0}
+          left={0}
+          zIndex={-1}
+          pointerEvents="none"
+          overflow="visible"
+          width="100vw"
+          height="100vh"
+        >
+          <CanvasBackgroundConfetti fire={fire} />
+        </Box>
+      </Portal>
       <Center minH="320px" textAlign="center" flexDirection="column" position="relative" overflow="visible">
-        <Box position="relative" zIndex={1} p={4} backdropFilter="blur(5px)" borderRadius="md">
+        <Box
+          position="relative"
+          zIndex={1}
+          p={4}
+          backdropFilter="blur(5px)"
+          borderRadius="md"
+          boxShadow="xs"
+          minW="100%"
+        >
           <Text color="gray.500" mb={1}>
             {
             state.currentToast.collection
