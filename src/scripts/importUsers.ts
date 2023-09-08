@@ -9,6 +9,7 @@ type InitialUser = {
   first_name: string;
   last_name: string;
   password: string;
+  team_id: number;
 }
 
 if (typeof window !== 'undefined') {
@@ -22,6 +23,10 @@ if (process.argv.length < 3) {
 
 const relativePath = process.argv[2];
 const absolutePath = path.resolve(relativePath);
+if (!absolutePath.endsWith('.json')) {
+  console.error('File must be a json file');
+  process.exit(1);
+}
 
 (async () => {
   const supabase = createClient<Database>(
@@ -35,7 +40,13 @@ const absolutePath = path.resolve(relativePath);
     },
   );
   const usersJSON = await fs.readFile(absolutePath, 'utf-8');
-  const users = JSON.parse(usersJSON) as InitialUser[];
+  const users = (JSON.parse(usersJSON) as InitialUser[]);
+
+  const {data: {users: existingUsers}} = await supabase.auth.admin.listUsers({
+    perPage: 1000,
+  });
+
+  const {data: existingProfiles} = await supabase.from('profiles').select('userId');
 
   for await (const user of users) {
     const {data, error} = await supabase.auth.admin.createUser({
@@ -44,26 +55,39 @@ const absolutePath = path.resolve(relativePath);
       email_confirm: true,
     });
 
+    let id = data?.user?.id;
+
     if (error?.status === 422) {
-      console.log(`User ${user.email} already exists`);
-      // eslint-disable-next-line no-continue
-      continue;
+      const existingUser = existingUsers?.find((u) => u.email === user.email);
+      if (existingUser) {
+        console.log(`User ${user.email} already exists with id ${existingUser.id}`);
+        id = existingUser.id;
+      } else {
+        console.error(`User ${user.email} already exists but was not found`);
+        process.exit(1);
+      }
     } else if (error) {
       console.error(error);
       process.exit(1);
     }
 
     try {
+      if (existingProfiles?.find((p) => p.userId === id)) {
+        console.log(`User ${user.email} already has a profile`);
+        // eslint-disable-next-line no-continue
+        continue;
+      }
       await supabase.from('profiles').insert({
-        userId: data!.user.id,
+        userId: id,
         firstName: user.first_name,
         lastName: user.last_name,
+        teamId: user.team_id,
       }).single().throwOnError();
     } catch (e) {
       console.error(e);
       process.exit(1);
     }
 
-    console.log(`Created user ${user.email} with id ${data!.user.id}`);
+    console.log(`Created user ${user.email} with id ${id}`);
   }
 })();

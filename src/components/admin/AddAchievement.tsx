@@ -217,7 +217,7 @@ export default function AddAchievementModal() {
 
               <FormControl mt={3} isDisabled={!!selectedTask}>
                 <FormLabel>Wartość punktowa</FormLabel>
-                <NumberInput defaultValue={15} min={0} max={300}>
+                <NumberInput defaultValue={15} min={-300} max={300}>
                   <NumberInputField {...register('achievementScore')} required />
                 </NumberInput>
               </FormControl>

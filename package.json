@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "typegen": "supabase gen types typescript --project-id daszpphpzslqrugcyaim --schema public > src/utils/database.ts && eslint --fix src/utils/database.ts",
-    "importusers": "cross-env DOTENV_CONFIG_PATH=.env.local tsx ./src/scripts/importusers.ts",
+    "importusers": "cross-env DOTENV_CONFIG_PATH=.env.local tsx ./src/scripts/importUsers.ts",
     "generate-pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
