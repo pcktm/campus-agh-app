@@ -65,7 +65,7 @@ export default function ToastsView() {
   }, []);
 
   return (
-    <Container overflow="visible" mt={4}>
+    <Container overflow="visible" my={4}>
       <Portal>
         <Box
           position="fixed"

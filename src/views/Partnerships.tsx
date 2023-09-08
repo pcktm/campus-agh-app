@@ -5,6 +5,7 @@ import {Balancer} from 'react-wrap-balancer';
 import AcademicaLogo from '../assets/partners/academica.png';
 import StudioLogo from '../assets/partners/studio.png';
 import BGHLogo from '../assets/partners/bgh.jpg';
+import GreenColaLogo from '../assets/partners/greencola.png';
 
 type Partner = {
   logo: string;
@@ -23,6 +24,10 @@ const partners: Partner[] = [
   {
     name: 'Browar Górniczo-Hutniczy',
     logo: BGHLogo,
+  },
+  {
+    name: 'Green Cola',
+    logo: GreenColaLogo,
   },
 ];
 

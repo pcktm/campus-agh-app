@@ -11,7 +11,11 @@ export default function Hero() {
     <Box>
       <Center flexDirection="column">
         <Link to="/">
-          <Image src="/logo.svg" alt="logo" height="175px" />
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            height="175px"
+          />
         </Link>
       </Center>
     </Box>

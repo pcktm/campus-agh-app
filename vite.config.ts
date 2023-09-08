@@ -10,7 +10,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['logo.svg'],
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,woff,woff2}'],
+        globPatterns: ['**/*.{js,css,html,png,jpg,svg,woff,woff2}'],
       },
       manifest: {
         name: 'CampusApp',
