@@ -44,7 +44,7 @@ export default function ErrorView() {
         }
         <Code maxWidth="sm" p={1} fontSize="small" mt={3}>
           {
-            error?.message ?? 'Coś poszło naprawdę nie tak - odśwież stronę lub zamknij i otwórz aplikację.'
+            message
           }
         </Code>
       </AlertDescription>
