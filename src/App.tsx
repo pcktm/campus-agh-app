@@ -15,6 +15,7 @@ import LeaderboardView from './views/Leaderboard.tsx';
 import PartnershipView from './views/Partnerships.tsx';
 import TaskListView from './views/Tasks.tsx';
 import BingoView from './views/Bingo.tsx';
+import ErrorView from './views/ErrorView.tsx';
 
 const AdminView = React.lazy(() => import('./views/Admin.tsx'));
 const AuthView = React.lazy(() => import('./views/Auth.tsx'));
@@ -79,6 +80,7 @@ const router = createBrowserRouter([
         ),
       },
     ],
+    errorElement: <ErrorView />,
   },
 ], {
   basename: import.meta.env.BASE_URL,

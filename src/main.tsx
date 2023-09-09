@@ -7,6 +7,7 @@ import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
+import ErrorBoundary from './utils/ErrorBoundary.tsx';
 
 const themeConfig = {
   initialColorMode: 'light',
@@ -43,15 +44,17 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-    <ChakraProvider
-      theme={theme}
-      toastOptions={{defaultOptions: {position: 'bottom'}}}
-    >
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </ChakraProvider>
+    <ErrorBoundary>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <ChakraProvider
+        theme={theme}
+        toastOptions={{defaultOptions: {position: 'bottom'}}}
+      >
+        <QueryClientProvider client={queryClient}>
+          <App />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </ChakraProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
 );
