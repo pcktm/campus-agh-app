@@ -7,7 +7,10 @@ export default function ErrorView() {
   const error = useRouteError() as Partial<Error>;
   console.error(error);
 
-  const isJustRefresh = error?.message?.includes('error loading dynamically imported module');
+  const message = error?.message ?? 'Coś poszło naprawdę nie tak - odśwież stronę lub zamknij i otwórz aplikację.';
+
+  const isJustRefresh = message.toLowerCase().includes('error loading dynamically imported module')
+    || message.toLowerCase().includes('not a valid javascript mime type');
 
   return (
     <Alert
