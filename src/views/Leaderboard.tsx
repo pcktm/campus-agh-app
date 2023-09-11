@@ -76,7 +76,13 @@ export default function LeaderboardView() {
         blackoutsCount: blackouts?.filter((b) => b.profileId === user.id).length ?? 0,
       });
     }
-    return scores.sort((a, b) => b.score - a.score);
+    // sort by score first, then by name
+    return scores.sort((a, b) => {
+      if (b.score === a.score) {
+        return a.subject.localeCompare(b.subject);
+      }
+      return b.score - a.score;
+    });
   }, [usersWithAchivements, blackouts]);
 
   const teamLeaderboard: TScore[] = useMemo(() => {
@@ -91,7 +97,12 @@ export default function LeaderboardView() {
         blackoutsCount: blackouts?.filter((b) => usersInTeam?.includes(b.profileId)).length ?? 0,
       });
     }
-    return scores.sort((a, b) => b.score - a.score);
+    return scores.sort((a, b) => {
+      if (b.score === a.score) {
+        return a.subject.localeCompare(b.subject);
+      }
+      return b.score - a.score;
+    });
   }, [teamWithAchievements, usersWithAchivements, blackouts]);
 
   return (

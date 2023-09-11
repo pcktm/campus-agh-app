@@ -34,8 +34,8 @@ export default function PointsStatDisplay() {
     return sorted;
   }, [teams]);
 
-  const personalPoints = pointsByUser.find(([id]) => id === String(profile?.id))?.[1];
-  const teamPoints = pointsByTeam.find(([id]) => id === String(profile?.teamId))?.[1];
+  const personalPoints = pointsByUser.find(([id]) => id === String(profile?.id))?.[1] ?? 0;
+  const teamPoints = pointsByTeam.find(([id]) => id === String(profile?.teamId))?.[1] ?? 0;
 
   const userPlace = pointsByUser.findIndex(([id]) => id === String(profile?.id)) + 1;
   const teamPlace = pointsByTeam.findIndex(([id]) => id === String(profile?.teamId)) + 1;
@@ -49,7 +49,7 @@ export default function PointsStatDisplay() {
             <StatNumber>{personalPoints ?? 0}</StatNumber>
             <StatHelpText>
               {
-                userPlace > 0 ? (
+                (userPlace > 0 && personalPoints > 0) ? (
                   <>
                     {userPlace}
                     {' '}
@@ -67,7 +67,7 @@ export default function PointsStatDisplay() {
             <StatNumber>{teamPoints ?? 0}</StatNumber>
             <StatHelpText>
               {
-                teamPlace > 0 ? (
+                (teamPlace > 0 && teamPoints > 0) ? (
                   <>
                     {teamPlace}
                     {' '}
