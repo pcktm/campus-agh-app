@@ -271,7 +271,6 @@ export function useAddBingoTaskSolve() {
         .limit(1)
         .maybeSingle()
         .throwOnError();
-      console.log(existing.data);
       if (existing.data) {
         throw new Error('Team already solved this');
       }

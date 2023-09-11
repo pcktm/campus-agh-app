@@ -33,6 +33,9 @@ const updateSW = registerSW({
       }, intervalMS);
     }
   },
+  onNeedRefresh() {
+    window.localStorage.setItem('workbox-sw-update', 'true');
+  },
   immediate: true,
 });
 

@@ -19,14 +19,11 @@ type State = {
 const allToasts = toastsCollections
   .flatMap((collection) => collection.toasts.map((toast) => ({toast, collection: collection.title})), [] as Toast[]);
 
-console.log(allToasts);
-
 function reduceToasts(state: State, action: 'next' | 'prev'): State {
   const {toasts, currentIdx} = state;
   if (action === 'next') {
     const nextIdx = currentIdx + 1;
     if (nextIdx >= toasts.length) {
-      console.log('RE-SORTING TOASTS');
       return {
         toasts: structuredClone(allToasts).sort(() => Math.random() - 0.5),
         currentIdx: 0,

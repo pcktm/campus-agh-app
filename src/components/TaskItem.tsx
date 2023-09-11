@@ -33,8 +33,6 @@ export default function TaskItem({task}: {task: AchievableTask}) {
     });
   }, [solutions, task]);
 
-  console.log(task, solutions);
-
   let bgColor: string;
   if (task.points >= 35) {
     bgColor = 'yellow.300';
