@@ -13,7 +13,7 @@ export default function TaskSelect({onSelect, type}: {onSelect: (id: string | nu
     return !t.is_personal;
   }).map((t) => ({
     id: String(t.id),
-    title: t.title,
+    title: `${t.title} (${t.points} pkt)`,
     subtitle: t.description,
   })), [tasks, type]);
 

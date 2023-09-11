@@ -19,14 +19,16 @@ type State = {
 const allToasts = toastsCollections
   .flatMap((collection) => collection.toasts.map((toast) => ({toast, collection: collection.title})), [] as Toast[]);
 
+console.log(allToasts);
+
 function reduceToasts(state: State, action: 'next' | 'prev'): State {
   const {toasts, currentIdx} = state;
   if (action === 'next') {
     const nextIdx = currentIdx + 1;
     if (nextIdx >= toasts.length) {
-      state.toasts.sort(() => Math.random() - 0.5);
+      console.log('RE-SORTING TOASTS');
       return {
-        ...state,
+        toasts: structuredClone(allToasts).sort(() => Math.random() - 0.5),
         currentIdx: 0,
         currentToast: toasts[0],
       };
@@ -43,7 +45,7 @@ function reduceToasts(state: State, action: 'next' | 'prev'): State {
 export default function ToastsView() {
   const [fire, setFire] = useState(false);
   const [state, dispatch] = useReducer(reduceToasts, {
-    toasts: allToasts.sort(() => Math.random() - 0.5),
+    toasts: structuredClone(allToasts).sort(() => Math.random() - 0.5),
     currentToast: allToasts[0],
     currentIdx: 0,
   });
