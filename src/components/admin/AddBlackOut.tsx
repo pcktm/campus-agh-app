@@ -16,11 +16,11 @@ type Inputs = {
 
 const generateMessage = (name: string) => {
   const templates = [
-    `${name} zalicza zgona, 25 punktów dla drużyny!`,
-    `${name} nie ma już z nami, 25 punktów dla drużyny ;)`,
-    `Anielski orszak wita ${name}, 25 punktów dla drużyny XD`,
-    `${name} musi już iść spać, na drużynę czeka 25 punktów 😉`,
-    `${name} zapada w zimowy sen, 25 punktów dla drużyny 🐻`,
+    `${name} zalicza zgona, 5 punktów dla drużyny!`,
+    `${name} nie ma już z nami, 5 punktów dla drużyny ;)`,
+    `Anielski orszak wita ${name}, 5 punktów dla drużyny XD`,
+    `${name} musi już iść spać, na drużynę czeka 5 punktów 😉`,
+    `${name} zapada w zimowy sen, 5 punktów dla drużyny 🐻`,
   ];
 
   return templates[Math.floor(Math.random() * templates.length)];
@@ -85,10 +85,10 @@ export default function AddBlackOutModal() {
     if (subject && subject.teamId) {
       await Promise.allSettled([
         addPoints.mutateAsync({
-          type: 'personal',
-          subjectId: Number(subject.id),
+          type: 'team',
+          subjectId: Number(subject.teamId),
           reason: `Blackout: ${subject.name}`,
-          score: 25,
+          score: 5,
         }),
         addBlackout.mutateAsync({
           profileId: Number(subject.id),
