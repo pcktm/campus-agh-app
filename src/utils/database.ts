@@ -23,7 +23,7 @@ export interface Database {
           description?: string | null
           id?: number
           is_personal?: boolean
-          points?: number
+          points: number
           title: string
         }
         Update: {
@@ -280,6 +280,37 @@ export interface Database {
             foreignKeyName: 'task_solves_teamId_fkey'
             columns: ['teamId']
             referencedRelation: 'teams'
+            referencedColumns: ['id']
+          }
+        ]
+      }
+      task_suggestions: {
+        Row: {
+          content: string
+          created_at: string
+          id: number
+          submitted_by: string | null
+          title: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: number
+          submitted_by?: string | null
+          title?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: number
+          submitted_by?: string | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'task_suggestions_submitted_by_fkey'
+            columns: ['submitted_by']
+            referencedRelation: 'users'
             referencedColumns: ['id']
           }
         ]

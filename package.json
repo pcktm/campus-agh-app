@@ -52,7 +52,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "supabase": "^1.86.0",
+    "supabase": "^1.93.0",
     "tsx": "^3.12.7",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",

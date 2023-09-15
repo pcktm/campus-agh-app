@@ -323,7 +323,6 @@ export function useAddEventReaction() {
 export function useDeleteEventReaction() {
   const client = useSupabase();
   const queryClient = useQueryClient();
-  const {data: me} = useUser();
 
   return useMutation({
     mutationFn: async (eventId: number) => {
@@ -335,6 +334,42 @@ export function useDeleteEventReaction() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['events'],
+      });
+    },
+  });
+}
+
+type TaskSuggestion = {
+  title?: string;
+  content: string;
+}
+
+export function useAddTaskSuggestion() {
+  const client = useSupabase();
+  const toast = useToast();
+
+  return useMutation({
+    mutationFn: async (newSuggestion: TaskSuggestion) => {
+      await client.from('task_suggestions')
+        .insert({
+          title: newSuggestion.title,
+          content: newSuggestion.content,
+        })
+        .single()
+        .throwOnError();
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Propozycja dodana',
+        status: 'success',
+      });
+    },
+    onError: (error: {message?: string}) => {
+      console.error(error);
+      toast({
+        title: 'Nie dodano propozycji',
+        status: 'error',
+        description: error?.message ?? 'Check console',
       });
     },
   });
