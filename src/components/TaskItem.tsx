@@ -9,13 +9,14 @@ import {polishPlurals} from 'polish-plurals';
 import React, {Suspense, useMemo} from 'react';
 import {formatRelative} from 'date-fns/esm';
 import {pl} from 'date-fns/esm/locale';
-import {AchievableTask, useTaskSolves} from '../hooks/queries.ts';
+import {AchievableTask, useTaskSolves, useTeams} from '../hooks/queries.ts';
 import type {GalleryImage} from './ImageGallery.tsx';
 
 const ImageGallery = React.lazy(() => import('./ImageGallery.tsx'));
 
 export default function TaskItem({task}: {task: AchievableTask}) {
   const {data: solutions, isLoading} = useTaskSolves(task.id, task.task_solves.length > 0);
+  const {data: teams} = useTeams();
 
   const mappedSolutions = useMemo<GalleryImage[]>(() => {
     const filtered = solutions?.filter((s) => !!s.imageUrl);
@@ -41,6 +42,7 @@ export default function TaskItem({task}: {task: AchievableTask}) {
   } else {
     bgColor = 'orange.200';
   }
+
   return (
     <Box>
       <Card
