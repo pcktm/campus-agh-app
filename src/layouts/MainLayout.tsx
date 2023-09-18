@@ -1,5 +1,5 @@
 import {
-  Alert, AlertDescription, AlertIcon, AlertTitle, Box, Container, Heading, Center,
+  Alert, AlertDescription, AlertIcon, AlertTitle, Box, Container, Heading, Link, Text,
 } from '@chakra-ui/react';
 import {Outlet} from 'react-router-dom';
 import Balancer, {Provider} from 'react-wrap-balancer';
@@ -29,20 +29,7 @@ export function MainLayout() {
         )
       }
       <Provider>
-        {
-          isAdmin ? <Outlet /> : (
-            <Container maxW="container.md" textAlign="center" mt={4}>
-              <Balancer>
-                <Heading size="lg">
-                  Dziękujemy za zaangażowanie! Teraz sprawdzimy zadania dwa razy i podsumujemy Wasze
-                  wyniki.
-                  Do zobaczenia na podsumowaniu Campusu 2023 o 16:45 w Filutku!
-                </Heading>
-              </Balancer>
-            </Container>
-          )
-        }
-
+        <Outlet />
       </Provider>
     </>
   );

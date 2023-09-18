@@ -1,5 +1,5 @@
 import {
-  Center, Heading, ScaleFade, Spinner, Stack,
+  Center, Container, Heading, ScaleFade, Spinner, Stack, Link, Text,
 } from '@chakra-ui/react';
 import {Session} from '@supabase/supabase-js';
 import {useQueryClient} from '@tanstack/react-query';
@@ -106,6 +106,22 @@ function App() {
     return () => subscription.unsubscribe();
   }, [client, queryClient]);
 
+  // Remove before next Campus edition ;)
+  return (
+    <Container maxW="container.md" textAlign="center" mt={6}>
+      <Heading size="2xl">
+        ❤️
+      </Heading>
+      <Heading size="lg" mt={4}>
+        Dziękujemy za wspaniały tydzień!
+      </Heading>
+      <Link fontSize="sm" href="https://kopanko.com?utm_source=campusapp" target="_blank">
+        aplikacja wyklepana przez Jakuba ;)
+      </Link>
+    </Container>
+  );
+
+  // eslint-disable-next-line no-unreachable
   if (session === false) {
     return (
       <Center h="100vh">
